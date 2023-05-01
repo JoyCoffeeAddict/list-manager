@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-    @apply min-h-screen overflow-hidden
+    @apply min-h-screen overflow-hidden bg-gradient-to-b from-[#b00b69] to-[#420690] text-white;
 }
