@@ -12,20 +12,23 @@ datasource db {
 }
 
 model ListItem {
-    id             String  @id @default(cuid())
-    name           String
-    initialChecked Boolean @default(false)
-    authorId       String
-    list           List    @relation(fields: [listId], references: [id])
-    listId         String
+    id       String  @id @default(cuid())
+    content  String
+    checked  Boolean @default(false)
+    authorId String
+    list     List    @relation(fields: [listId], references: [id])
+    listId   String
+    sequence Int
 
     @@index([listId])
 }
 
 model List {
-    id String @id @default(cuid())
-
-    authorId String
-
-    items ListItem[]
+    id        String     @id @default(cuid())
+    authorId  String
+    listName  String
+    sequence  Int
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @default(now())
+    items     ListItem[]
 }

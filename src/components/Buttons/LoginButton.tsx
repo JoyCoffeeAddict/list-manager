@@ -1,5 +1,5 @@
 import { SignInButton } from "@clerk/nextjs"
-import { PrimaryButtonWrapper } from "./PrimaryButton"
+import { ButtonPrimary } from "./PrimaryButton"
 import primaryButtonStyles from "./PrimaryButton.module.scss"
 
 //Clerk SignInButton had some problem with wrapping it in custom component
