@@ -1,15 +1,15 @@
 import * as z from "zod"
 
-import { type Prisma, type ListItem, PrismaClient } from "@prisma/client"
+import type { PrismaClient, ListItem } from "@prisma/client"
 import { TRPCError } from "@trpc/server"
-import { createTRPCRouter, privateProcedure } from "~/server/api/trpc"
+import { newListSchema } from "~/components/Modals/CreateListModal"
 import {
   existingListItemSchema,
-  listItemSchema,
-  listItemType,
+  type listItemType,
   listSchema,
 } from "~/hooks/useList"
-import { log } from "console"
+import { createTRPCRouter, privateProcedure } from "~/server/api/trpc"
+import { Logger } from "~/utils/logger"
 
 interface SortableObject extends Record<string, unknown> {
   sequence: number
@@ -25,7 +25,7 @@ const getListItemsById = async (
       orderBy: [{ sequence: "asc" }],
     })
   } catch (e) {
-    console.log(e)
+    Logger.error(e)
     return []
   }
 }
@@ -36,11 +36,26 @@ export const sequencesListValidator = (array: SortableObject[]) => {
 }
 
 export const listsRouter = createTRPCRouter({
-  getAllListsForCurrentUser: privateProcedure.query(async ({ ctx, input }) => {
+  getAllListsForCurrentUser: privateProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.list.findMany({
       where: { authorId: ctx.userId },
+      orderBy: { sequence: "asc" },
     })
   }),
+
+  getListById: privateProcedure
+    .input(z.object({ listId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.list.findFirst({ where: { id: input.listId } })
+    }),
+
+  createList: privateProcedure
+    .input(newListSchema)
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.list.create({
+        data: { authorId: ctx.userId, ...input },
+      })
+    }),
 
   listItemsByListId: privateProcedure
     .input(

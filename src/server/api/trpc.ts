@@ -18,7 +18,7 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next"
 
 import { prisma } from "~/server/db"
 
-type CreateContextOptions = Record<string, never>
+// type CreateContextOptions = Record<string, never>
 
 /**
  * This is the actual context you will use in your router. It will be used to process every request
@@ -44,11 +44,10 @@ export const createTRPCContext = (opts: CreateNextContextOptions) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
+import { getAuth } from "@clerk/nextjs/server"
 import { TRPCError, initTRPC } from "@trpc/server"
 import superjson from "superjson"
 import { ZodError } from "zod"
-import { getAuth } from "@clerk/nextjs/server"
-import { log } from "console"
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,

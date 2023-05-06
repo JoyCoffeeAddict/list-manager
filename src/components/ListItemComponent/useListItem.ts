@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react"
+import { type MouseEventHandler } from "react"
 import { useFormContext } from "react-hook-form"
 
 export const useListItem = ({ index }: { index: number }) => {
@@ -14,6 +14,6 @@ export const useListItem = ({ index }: { index: number }) => {
   return {
     clearInput,
     contentKey,
-    checkedKey
+    checkedKey,
   }
 }

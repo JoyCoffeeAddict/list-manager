@@ -10,7 +10,7 @@ export const Checkbox = ({
 }) => {
   const { register } = useFormContext()
   return (
-    <label className={styles.checkbox__label}>
+    <label className={styles.checkbox__label} aria-label="Is it done?">
       <input
         className={styles.checkbox__input}
         type="checkbox"
@@ -20,6 +20,7 @@ export const Checkbox = ({
         className={styles.checkbox__icon}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 22 22"
+        aria-label="It's done!"
       >
         <rect
           width="21"

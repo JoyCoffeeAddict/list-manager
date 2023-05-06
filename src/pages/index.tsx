@@ -1,9 +1,12 @@
-import { SignInButton, useUser } from "@clerk/nextjs"
+import { useUser } from "@clerk/nextjs"
 import { type NextPage } from "next"
 import Link from "next/link"
+import { useState } from "react"
 import { LoginButton } from "~/components/Buttons/LoginButton"
-import { Loader, LoadingPage } from "~/components/Loader/Loader"
-import { MainLayout } from "~/components/mainLayout"
+import { ButtonPrimary } from "~/components/Buttons/PrimaryButton"
+import { LoadingPage } from "~/components/Loader/Loader"
+import { CreateListModal } from "~/components/Modals/CreateListModal"
+import { MainLayout } from "~/Layouts/mainLayout"
 import { api } from "~/utils/api"
 
 const SignIn = () => {
@@ -16,32 +19,67 @@ const SignIn = () => {
   )
 }
 
+const NoListsComponent = () => {
+  return (
+    <div className="border-2 border-blue-400 p-3">
+      <span>Start by creating your first list!</span>
+    </div>
+  )
+}
+
 const ListsFeed = () => {
   const { user } = useUser()
+  const [isCreateListModalOpen, setIsCreateListModalOpen] = useState(false)
+
   if (user == null) return null
 
-  const { data } = api.lists.getAllListsForCurrentUser.useQuery({
-    userId: user.id,
-  })
+  const { data: lists, isLoading } =
+    api.lists.getAllListsForCurrentUser.useQuery()
 
-  console.log(data)
+  if (isLoading) {
+    return <LoadingPage />
+  }
+
   return (
-    <div>
-      <h2 className="mb-3">Your Lists: </h2>
-      {data?.map(({ id, listName }) => (
-        <Link href={`/${id}`} key={id}>
-          <div className="border-2 border-blue-400 p-3">
-            <span>{listName} </span>
-          </div>
-        </Link>
-      ))}
-    </div>
+    <>
+      <div className="flex h-full flex-col overflow-hidden border-x-2 border-b-2 border-blue-400">
+        <h2 className="mb-3 p-4">Your Lists: </h2>
+        <ul className="mb-8 overflow-y-auto p-4">
+          {lists != null && lists.length !== 0 ? (
+            lists?.map(({ id, listName }) => (
+              <Link href={`/${id}`} key={id}>
+                <li className="my-4">
+                  <div className="border-2 border-blue-400 p-3">
+                    <span>{listName} </span>
+                  </div>
+                </li>
+              </Link>
+            ))
+          ) : (
+            <NoListsComponent />
+          )}
+        </ul>
+        <div className="flex justify-center p-4">
+          <ButtonPrimary
+            type="button"
+            onClick={() => setIsCreateListModalOpen(true)}
+          >
+            Add new List
+          </ButtonPrimary>
+        </div>
+      </div>
+
+      <CreateListModal
+        isOpen={isCreateListModalOpen}
+        handleClose={() => setIsCreateListModalOpen(false)}
+        sequence={lists?.length || 0}
+      />
+    </>
   )
 }
 
 const Home: NextPage = () => {
   const { isSignedIn = false, isLoaded } = useUser()
-  console.log(isLoaded)
 
   if (!isLoaded) {
     return <LoadingPage />
@@ -49,11 +87,9 @@ const Home: NextPage = () => {
 
   return (
     <MainLayout>
-      <main className="flex h-screen flex-col items-center justify-center ">
-        <div className="mt-[66px] h-full w-full overflow-y-auto overflow-x-hidden border-x-2 border-blue-400 p-4 md:max-w-2xl">
-          {!isSignedIn ? <SignIn /> : <ListsFeed />}
-        </div>
-      </main>
+      <div className="h-full w-full overflow-hidden overflow-y-auto overflow-x-hidden pb-20 md:max-w-2xl">
+        {!isSignedIn ? <SignIn /> : <ListsFeed />}
+      </div>
     </MainLayout>
   )
 }

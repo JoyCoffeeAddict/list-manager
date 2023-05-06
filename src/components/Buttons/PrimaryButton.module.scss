@@ -1,6 +1,14 @@
 .primary_button {
   @apply relative z-0 overflow-hidden rounded-md border-2 border-blue-400 px-6 py-2;
 
+  &_disabled {
+    @apply pointer-events-none border-slate-300 text-slate-300;
+
+    &::after {
+      content: none;
+    }
+  }
+
   &::after {
     content: "";
     @apply absolute inset-0 bg-gradient-to-b from-[#420690] to-[#b00b69] opacity-0 transition-opacity duration-200 hover:opacity-100;

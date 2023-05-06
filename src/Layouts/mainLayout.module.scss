@@ -1,0 +1,4 @@
+.layout {
+  @apply grid h-screen w-screen;
+  grid-template-rows: auto 1fr;
+}

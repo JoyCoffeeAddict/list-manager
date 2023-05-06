@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
+  type FieldErrors,
   useFieldArray,
   useForm,
   type SubmitErrorHandler,
 } from "react-hook-form"
-import { toast } from "react-hot-toast"
 import { z } from "zod"
 import { api } from "~/utils/api"
+import { Logger } from "~/utils/logger"
 import { useErrorHelper } from "./useErrorHelper"
 
 export const listItemSchema = z.object({
@@ -33,25 +34,19 @@ export type listItemType = z.infer<typeof listItemSchema>
 
 export const useList = ({ listId }: { listId: string }) => {
   const methods = useForm<SingleListForm>({ resolver: zodResolver(listSchema) })
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    control,
-    reset,
-  } = methods
+  const { control, reset } = methods
 
   const fieldArrayMethods = useFieldArray({
     control,
     name: "list",
     keyName: "formArrayId",
   })
-  const { fields, append, prepend, remove, swap, move, insert } =
-    fieldArrayMethods
 
   const ctx = api.useContext()
   const { genericErrorNotify } = useErrorHelper()
+
+  const { data: list } = api.lists.getListById.useQuery({ listId })
+
   const { data, isLoading } = api.lists.listItemsByListId.useQuery(
     {
       listId,
@@ -79,11 +74,6 @@ export const useList = ({ listId }: { listId: string }) => {
       {
         onSuccess: () => {
           void ctx.lists.invalidate()
-
-          // getListItemsByListId.invalidate(
-          //   { listId },
-          //   { stale: true }
-          // )
         },
         onError: () => {
           genericErrorNotify()
@@ -91,8 +81,10 @@ export const useList = ({ listId }: { listId: string }) => {
       }
     )
   }
-  const onInvalidSubmit: SubmitErrorHandler<SingleListForm> = () => {
-    genericErrorNotify()
+  const onInvalidSubmit: SubmitErrorHandler<SingleListForm> = (
+    errors: FieldErrors
+  ) => {
+    Logger.warn("Invalid submit, errors:", errors)
     return
   }
 
@@ -103,5 +95,6 @@ export const useList = ({ listId }: { listId: string }) => {
     onSubmit,
     onInvalidSubmit,
     fieldArrayMethods,
+    list,
   }
 }

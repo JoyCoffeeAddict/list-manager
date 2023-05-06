@@ -2,21 +2,27 @@ import { SignOutButton, useUser } from "@clerk/nextjs"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { PropsWithChildren } from "react"
+import { type PropsWithChildren } from "react"
 
-export const MainLayout = (props: PropsWithChildren) => {
+import styles from "./mainLayout.module.scss"
+
+export const MainLayout = ({
+  children,
+  listName,
+}: PropsWithChildren<{ listName?: string }>) => {
   const { isSignedIn, user } = useUser()
   const router = useRouter()
 
   return (
-    <>
-      <nav className="absolute top-0 flex w-full justify-between border-b-2 border-blue-400 p-4 text-white">
+    <div className={styles.layout}>
+      <nav className="flex w-full items-center justify-between border-b-2 border-blue-400 p-4 text-white">
         <div>
           <Link href="/" className=" flex items-center gap-2">
             <Image src="/favicon.ico" width={32} height={32} alt="logo" />
             <span>List Manager</span>
           </Link>
         </div>
+        <span className="text-2xl leading-none">{listName || ""}</span>
         <div className="flex gap-2 pr-4">
           {isSignedIn && user != null ? (
             <>
@@ -37,7 +43,9 @@ export const MainLayout = (props: PropsWithChildren) => {
           ) : null}
         </div>
       </nav>
-      <>{props.children}</>
-    </>
+      <main className="flex w-full items-center justify-center overflow-hidden  pb-20 ">
+        {children}
+      </main>
+    </div>
   )
 }
