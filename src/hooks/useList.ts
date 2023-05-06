@@ -73,7 +73,7 @@ export const useList = ({ listId }: { listId: string }) => {
       { id: listId, list: newList },
       {
         onSuccess: () => {
-          void ctx.lists.invalidate()
+          void ctx.lists.listItemsByListId.invalidate()
         },
         onError: () => {
           genericErrorNotify()
