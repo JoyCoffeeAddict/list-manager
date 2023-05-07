@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Primary colors are for text, accent colors are for other colors
+
+:root {
+  --background: theme("colors.gray.50");
+  --background-secondary: theme("colors.gray.100");
+
+  --primary-dark: theme("colors.gray.900");
+  --primary-medium: theme("colors.gray.700");
+  --primary-light: theme("colors.gray.400");
+
+  --accent-dark: theme("colors.blue.500");
+  --accent-medium: theme("colors.blue.400");
+  --accent-light: theme("colors.blue.300");
+}
+
+[data-theme="dark"] {
+  --background: theme("colors.gray.900");
+  --background-secondary: theme("colors.gray.700");
+
+  --accent-dark: theme("colors.blue.300");
+  --accent-medium: theme("colors.blue.800");
+  --accent-light: theme("colors.blue.950");
+
+  --primary-dark: theme("colors.gray.300");
+  --primary-medium: theme("colors.gray.200");
+  --primary-light: theme("colors.gray.100");
+}
+
+[data-theme="fancy"] {
+  --background-gradient: linear-gradient(to bottom, #b00b69, #420690);
+  --background-gradient-reversed: linear-gradient(to bottom, #420690, #b00b69);
+  --background: #420690;
+  --background-secondary: transparent;
+
+  --primary-dark: theme("colors.gray.300");
+  --primary-medium: theme("colors.gray.200");
+  --primary-light: theme("colors.gray.100");
+
+  --accent-dark: theme("colors.blue.300");
+  --accent-medium: theme("colors.blue.400");
+  --accent-light: theme("colors.blue.950");
+
+  body {
+    @apply bg-th-background bg-th-background-gradient;
+  }
+}
+
+body {
+  @apply min-h-screen overflow-hidden bg-th-background;
+}

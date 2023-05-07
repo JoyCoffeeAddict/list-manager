@@ -26,7 +26,7 @@ export const ListItemComponent = ({
           <Checkbox formName={checkedKey} />
           <label aria-label={`item number ${index + 1}`} className="grow">
             <input
-              className="w-full border-2 border-blue-400 bg-transparent p-2 outline-transparent focus:outline-transparent"
+              className="w-full border-2 border-th-accent-medium bg-transparent p-2 outline-transparent focus:outline-transparent"
               {...register(contentKey)}
             />
           </label>

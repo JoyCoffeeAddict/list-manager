@@ -24,6 +24,7 @@ specifiers:
   eslint: ^8.36.0
   eslint-config-next: ^13.2.4
   next: ^13.2.4
+  next-themes: ^0.2.1
   postcss: ^8.4.21
   prettier: ^2.8.6
   prettier-plugin-tailwindcss: ^0.2.6
@@ -52,6 +53,7 @@ dependencies:
   classnames: 2.3.2
   csstype: 3.1.2
   next: 13.3.4_txdvpvppf2ilsh27xadmwrzlmm
+  next-themes: 0.2.1_vwuoxxmoeydgew5hhkavebkk4e
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.43.9_react@18.2.0
@@ -2310,6 +2312,18 @@ packages:
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
+
+  /next-themes/0.2.1_vwuoxxmoeydgew5hhkavebkk4e:
+    resolution: {integrity: sha512-B+AKNfYNIzh0vqQQKqQItTS8evEouKD7H5Hj3kmuPERwddR2TxvDSFZuTj6T7Jfn1oyeUyJMydPl1Bkxkh0W7A==}
+    peerDependencies:
+      next: '*'
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      next: 13.3.4_txdvpvppf2ilsh27xadmwrzlmm
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /next/13.3.4_txdvpvppf2ilsh27xadmwrzlmm:
     resolution: {integrity: sha512-sod7HeokBSvH5QV0KB+pXeLfcXUlLrGnVUXxHpmhilQ+nQYT3Im2O8DswD5e4uqbR8Pvdu9pcWgb1CbXZQZlmQ==}

@@ -15,11 +15,10 @@ const ListView: NextPage = () => {
   const router = useRouter()
   const { listId } = router.query
   const newListId = typeof listId === "string" && listId != null ? listId : ""
-  const { user } = useUser()
+  const { user, isLoaded: isUserLoaded } = useUser()
   const {
     isLoading,
     methods,
-    data,
     onSubmit,
     onInvalidSubmit,
     fieldArrayMethods,
@@ -33,20 +32,23 @@ const ListView: NextPage = () => {
     formState: { errors },
   } = methods
   const { append, fields, remove } = fieldArrayMethods
-  if (isLoading) {
+  const isInvalid = (errors?.list?.flat?.(1).length || 0) > 0
+
+  if (isLoading || !isUserLoaded) {
     return <LoadingPage />
   }
 
-  const isInvalid = (errors?.list?.flat?.(1).length || 0) > 0
-
-  if (data == null || user?.id == null) return <div>404</div>
+  if (user?.id == null) {
+    void router.push("/")
+    return null
+  }
 
   return (
     <FormProvider {...methods}>
       <MainLayout listName={list?.listName}>
         <form
           className={classNames(
-            "grid h-full  w-full overflow-x-hidden border-x-2 border-b-2 border-blue-400 pb-4 md:max-w-2xl",
+            "grid h-full  w-full overflow-x-hidden border-x-2 border-b-2 border-th-accent-medium pb-4 md:max-w-2xl",
             styles.listForm
           )}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises

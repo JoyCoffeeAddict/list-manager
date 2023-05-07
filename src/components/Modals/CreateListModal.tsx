@@ -85,7 +85,7 @@ export const CreateListModal = ({
             <span className="flex w-full flex-col items-center">
               <input
                 type="text"
-                className="m-2 w-3/4 border-2 border-blue-400 bg-transparent p-2"
+                className="m-2 w-3/4 border-2 border-th-accent-medium bg-transparent p-2"
                 {...register("listName")}
               />
               <div>{errors.listName?.message}</div>

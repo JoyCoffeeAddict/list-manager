@@ -27,6 +27,11 @@
       stroke-dasharray: 20px;
       stroke-dashoffset: 20px;
       transition: stroke-dashoffset 0.2s ease-out;
+      @apply stroke-th-accent-dark;
+    }
+
+    .border {
+      @apply stroke-th-accent-medium stroke-2;
     }
   }
 

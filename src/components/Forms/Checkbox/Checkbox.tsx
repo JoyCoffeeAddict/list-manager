@@ -23,17 +23,16 @@ export const Checkbox = ({
         aria-label="It's done!"
       >
         <rect
+          className={styles.border}
           width="21"
           height="21"
           x=".5"
           y=".5"
           fill="transparent"
-          stroke="#ffffff"
           rx="3"
         />
         <path
           className={styles.tick}
-          stroke="#6EA340"
           fill="none"
           strokeLinecap="round"
           strokeWidth="4"
