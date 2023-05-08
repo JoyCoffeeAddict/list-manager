@@ -61,7 +61,7 @@ export const useList = ({ listId }: { listId: string }) => {
     }
   )
 
-  const { mutate: updateList } = api.lists.updateList.useMutation()
+  const { mutate: updateList } = api.lists.renameList.useMutation()
 
   const onSubmit = (values: SingleListForm) => {
     const newList = values.list.map((listItem, index) => ({

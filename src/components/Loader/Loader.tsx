@@ -1,7 +1,7 @@
 export const Loader = () => {
   return (
     <div className="relative z-50 flex items-center justify-center">
-      <div className="h-16 w-16 animate-spin rounded-full border-b-2 border-t-2 border-white"></div>
+      <div className="h-16 w-16 animate-spin rounded-full border-b-2 border-t-2 border-th-primary-dark"></div>
     </div>
   )
 }

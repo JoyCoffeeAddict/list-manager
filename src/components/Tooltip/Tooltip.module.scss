@@ -1,0 +1,32 @@
+.tooltip {
+  @apply relative;
+  //default position is bottom
+  &Title {
+    @apply invisible absolute -left-8 z-10 max-w-sm  break-keep rounded-md bg-gray-800 p-2 text-white opacity-0;
+    top: 125%;
+    transition: opacity 0.2s ease-in;
+  }
+
+  &Top {
+    .tooltipTitle {
+      @apply top-auto;
+      bottom: 125%;
+    }
+  }
+
+  //TODO: Create config for left/right tooltips
+  &Right {
+    .tooltipTitle {
+      @apply -right-2 top-0 translate-x-full;
+    }
+  }
+  &Left {
+    .tooltipTitle {
+      @apply -left-2 top-0 -translate-x-full;
+    }
+  }
+
+  &ChildrenWrapper:hover ~ &Title {
+    @apply visible opacity-100;
+  }
+}

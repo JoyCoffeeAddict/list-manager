@@ -1,48 +1,42 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/router"
 import { useForm, type SubmitErrorHandler } from "react-hook-form"
-import { api } from "~/utils/api"
 import { Logger } from "~/utils/logger"
-import { newListSchema, type newListType } from "~/utils/schemas/listSchemas"
+import {
+  renameListSchema,
+  type renameListType,
+} from "~/utils/schemas/listSchemas"
 import { ButtonPrimary } from "../Buttons/PrimaryButton"
+import { useLitsFeed } from "../ListFeed/useListFeed"
 import { BasicModal } from "./BasicModal"
 
-interface CreateListModalProps {
+interface RenameListModalProps {
   isOpen: boolean
   handleClose: () => void
-  sequence: number
+  id: string
 }
 
-export const CreateListModal = ({
+export const RenameListModal = ({
   isOpen,
   handleClose,
-  sequence,
-}: CreateListModalProps) => {
-  const router = useRouter()
+  id,
+}: RenameListModalProps) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<newListType>({
-    defaultValues: { listName: "", sequence },
-    resolver: zodResolver(newListSchema),
+  } = useForm<renameListType>({
+    defaultValues: { listName: "", id },
+    resolver: zodResolver(renameListSchema),
   })
-  const { mutate: createList } = api.lists.createList.useMutation()
+  const { onRenameList } = useLitsFeed()
 
-  const onSubmit = ({ listName }: newListType) => {
-    createList(
-      { listName, sequence },
-      {
-        onSuccess: (newList) => {
-          void router.push(`/${newList.id}`)
-        },
-      }
-    )
+  const onSubmit = ({ listName }: renameListType) => {
+    onRenameList({ id, listName })
   }
 
   if (!isOpen) return null
 
-  const onInvalidSubmit: SubmitErrorHandler<newListType> = (error) => {
+  const onInvalidSubmit: SubmitErrorHandler<renameListType> = (error) => {
     Logger.error(error)
   }
   return (
@@ -57,7 +51,7 @@ export const CreateListModal = ({
         <div className=" absolute left-1/2 top-1/2 z-20 grid h-80 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-th-primary-light bg-th-background bg-th-background-gradient p-8 text-th-primary-medium shadow-2xl ">
           <div className="grid grid-rows-1 ">
             <h2 className="inline justify-self-center text-2xl">
-              How would you like to name your new list?
+              How would you like to rename your list?
             </h2>
             <span
               onClick={handleClose}

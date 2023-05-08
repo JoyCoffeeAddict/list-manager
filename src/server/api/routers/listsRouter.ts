@@ -1,15 +1,15 @@
 import * as z from "zod"
 
-import type { PrismaClient, ListItem } from "@prisma/client"
+import type { ListItem, PrismaClient } from "@prisma/client"
 import { TRPCError } from "@trpc/server"
-import { newListSchema } from "~/components/Modals/CreateListModal"
 import {
   existingListItemSchema,
-  type listItemType,
   listSchema,
+  type listItemType,
 } from "~/hooks/useList"
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc"
 import { Logger } from "~/utils/logger"
+import { newListSchema, renameListSchema } from "~/utils/schemas/listSchemas"
 
 interface SortableObject extends Record<string, unknown> {
   sequence: number
@@ -55,6 +55,25 @@ export const listsRouter = createTRPCRouter({
       return await ctx.prisma.list.create({
         data: { authorId: ctx.userId, ...input },
       })
+    }),
+
+  renameList: privateProcedure
+    .input(renameListSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { id, listName } = input
+      return await ctx.prisma.list.update({
+        where: { id },
+        data: { listName },
+      })
+    }),
+
+  deleteList: privateProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.$transaction([
+        ctx.prisma.list.delete({ where: { id: input.id } }),
+        ctx.prisma.listItem.deleteMany({ where: { listId: input.id } }),
+      ])
     }),
 
   listItemsByListId: privateProcedure

@@ -8,6 +8,10 @@ import { Toaster } from "react-hot-toast"
 import { ThemeProvider } from "next-themes"
 import "~/styles/globals.scss"
 
+import { config } from "@fortawesome/fontawesome-svg-core"
+import "@fortawesome/fontawesome-svg-core/styles.css"
+config.autoAddCss = false
+
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
