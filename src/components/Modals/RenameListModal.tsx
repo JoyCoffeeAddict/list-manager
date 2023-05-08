@@ -31,7 +31,7 @@ export const RenameListModal = ({
   const { onRenameList } = useLitsFeed()
 
   const onSubmit = ({ listName }: renameListType) => {
-    onRenameList({ id, listName })
+    onRenameList({ id, listName, renameCallback: handleClose })
   }
 
   if (!isOpen) return null

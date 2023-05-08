@@ -22,6 +22,7 @@ const NoListsComponent = () => {
 const ListName = ({ id, listName }: { id: string; listName: string }) => {
   const [isRenameListModalOpen, setIsRenameListModalOpen] = useState(false)
   const { onRemoveList } = useLitsFeed()
+  const ctx = api.useContext()
 
   return (
     <>
@@ -57,7 +58,10 @@ const ListName = ({ id, listName }: { id: string; listName: string }) => {
       {isRenameListModalOpen ? (
         <RenameListModal
           isOpen={isRenameListModalOpen}
-          handleClose={() => setIsRenameListModalOpen(false)}
+          handleClose={() => {
+            void ctx.lists.getAllListsForCurrentUser.invalidate()
+            setIsRenameListModalOpen(false)
+          }}
           id={id}
         />
       ) : null}

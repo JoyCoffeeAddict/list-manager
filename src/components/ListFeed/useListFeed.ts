@@ -18,12 +18,21 @@ export const useLitsFeed = () => {
 
   const { mutate: renameList } = api.lists.renameList.useMutation()
 
-  const onRenameList = ({ id, listName }: { id: string; listName: string }) => {
+  const onRenameList = ({
+    id,
+    listName,
+    renameCallback,
+  }: {
+    id: string
+    listName: string
+    renameCallback: () => void
+  }) => {
     renameList(
       { id, listName },
       {
         onSuccess: () => {
-          void ctx.lists.getAllListsForCurrentUser.invalidate()
+          renameCallback()
+          return
         },
       }
     )
