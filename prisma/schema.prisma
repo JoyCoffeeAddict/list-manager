@@ -24,11 +24,26 @@ model ListItem {
 }
 
 model List {
-    id        String     @id @default(cuid())
-    authorId  String
-    listName  String
-    sequence  Int
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @default(now())
-    items     ListItem[]
+    id             String     @id @default(cuid())
+    authorId       String
+    organizationId String?
+    listName       String
+    sequence       Int
+    createdAt      DateTime   @default(now())
+    updatedAt      DateTime   @default(now())
+    items          ListItem[]
+}
+
+enum NotificationType {
+    INVITATION
+}
+
+model Notification {
+    id        String           @id @default(cuid())
+    read      Boolean          @default(false)
+    createdAt DateTime         @default(now())
+    issuer    String
+    userId    String
+    code      NotificationType
+    content   String?
 }

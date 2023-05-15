@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@clerk/nextjs': ^4.16.4
+  '@clerk/types': ^3.37.0
   '@fortawesome/fontawesome-svg-core': ^6.4.0
   '@fortawesome/free-regular-svg-icons': ^6.4.0
   '@fortawesome/free-solid-svg-icons': ^6.4.0
@@ -71,6 +72,7 @@ dependencies:
   zod: 3.21.4
 
 devDependencies:
+  '@clerk/types': 3.37.0
   '@types/eslint': 8.37.0
   '@types/node': 18.16.3
   '@types/prettier': 2.7.2
@@ -108,7 +110,7 @@ packages:
     resolution: {integrity: sha512-PO0z9zeirKQewlNNtLTKuClPmw73yed2QKBHXST6lPFDXr8UahsUj6EH+Z5f2+5xt/LpyKxiBrgzo0ZSaBICGQ==}
     engines: {node: '>=14'}
     dependencies:
-      '@clerk/types': 3.35.3
+      '@clerk/types': 3.37.0
       '@peculiar/webcrypto': 1.4.1
       '@types/node': 16.18.6
       deepmerge: 4.2.2
@@ -124,7 +126,7 @@ packages:
       react: '>=16'
     dependencies:
       '@clerk/shared': 0.15.6_react@18.2.0
-      '@clerk/types': 3.35.3
+      '@clerk/types': 3.37.0
       react: 18.2.0
       swr: 1.3.0_react@18.2.0
       tslib: 2.4.1
@@ -135,7 +137,7 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       '@clerk/backend': 0.17.2
-      '@clerk/types': 3.35.3
+      '@clerk/types': 3.37.0
       '@types/cookies': 0.7.7
       '@types/express': 4.17.14
       '@types/node-fetch': 2.6.2
@@ -156,7 +158,7 @@ packages:
       '@clerk/backend': 0.17.2
       '@clerk/clerk-react': 4.15.3_react@18.2.0
       '@clerk/clerk-sdk-node': 4.8.6
-      '@clerk/types': 3.35.3
+      '@clerk/types': 3.37.0
       next: 13.3.4_txdvpvppf2ilsh27xadmwrzlmm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -171,12 +173,11 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@clerk/types/3.35.3:
-    resolution: {integrity: sha512-P1R1XCGjDguP3fBTaznbuahmwFWfxoJ3O+XJ2MAsDolzHi9m19lslC+80+eVs7kRcHptQuEmXryJ5Uy+4Uui9A==}
+  /@clerk/types/3.37.0:
+    resolution: {integrity: sha512-/L10AyFBgRPcbyLzHpw13MksZ77911tC8glSUbMbQptCSK38vUDAzI29p4ZKH8U/FIdJdXNA40j+DB8XbHixsw==}
     engines: {node: '>=14'}
     dependencies:
       csstype: 3.1.1
-    dev: false
 
   /@eslint-community/eslint-utils/4.4.0_eslint@8.39.0:
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
@@ -1182,7 +1183,6 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
-    dev: false
 
   /csstype/3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}

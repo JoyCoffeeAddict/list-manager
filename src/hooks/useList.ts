@@ -9,6 +9,7 @@ import { z } from "zod"
 import { api } from "~/utils/api"
 import { Logger } from "~/utils/logger"
 import { useErrorHelper } from "./useErrorHelper"
+import { toast } from "react-hot-toast"
 
 export const listItemSchema = z.object({
   id: z.string().optional(),
@@ -76,7 +77,12 @@ export const useList = ({ listId }: { listId: string }) => {
         onSuccess: () => {
           void ctx.lists.listItemsByListId.invalidate()
         },
-        onError: () => {
+        onError: (error) => {
+          if (error.data?.httpStatus === 403) {
+            toast(error.message)
+            return
+          }
+
           genericErrorNotify()
         },
       }

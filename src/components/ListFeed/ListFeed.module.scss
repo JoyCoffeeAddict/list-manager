@@ -1,8 +1,5 @@
-.listNameComponent {
-  @apply my-4 grid;
-  grid-template-columns: 1fr auto auto;
-}
+.feedWrapper {
+  grid-template-rows: 1fr auto;
 
-.listNameAction {
-  @apply rounded-none border-l-0 py-3;
+  @apply grid h-full border-x-2 border-b-2 border-th-accent-medium;
 }

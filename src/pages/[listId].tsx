@@ -68,7 +68,7 @@ const ListView: NextPage = () => {
           </ul>
           <div className="flex justify-center gap-4">
             <Link href="/">
-              <ButtonPrimary className="">
+              <ButtonPrimary>
                 <span>Go back to lists</span>
               </ButtonPrimary>
             </Link>

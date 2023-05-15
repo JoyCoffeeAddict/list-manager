@@ -36,10 +36,17 @@ export const sequencesListValidator = (array: SortableObject[]) => {
 }
 
 export const listsRouter = createTRPCRouter({
-  getAllListsForCurrentUser: privateProcedure.query(async ({ ctx }) => {
+  getUserPrivateLists: privateProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.list.findMany({
-      where: { authorId: ctx.userId },
+      where: { AND: [{ authorId: ctx.userId, organizationId: null }] },
       orderBy: { sequence: "asc" },
+    })
+  }),
+  getCurrentUserOrganizationLists: privateProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.list.findMany({
+      where: {
+        organizationId: ctx.orgId,
+      },
     })
   }),
 
@@ -96,6 +103,20 @@ export const listsRouter = createTRPCRouter({
         })
       }
 
+      // const user = await ctx.prisma.userInorganization.findFirst({
+      //   where: { AND: [{ listId: input.id }, { userId: ctx.userId }] },
+      // })
+
+      // if (!user?.isEditor) {
+      //   throw new TRPCError({
+      //     code: "FORBIDDEN",
+      //     message:
+      //       "You don't have permissions to modify this list, contact your organization.",
+      //   })
+      // }
+
+      // console.log("🚀 ~ file: listsRouter.ts:121 ~ .mutation ~ user:", user)
+
       await ctx.prisma.$transaction(async () => {
         let previousListItems: ListItem[] = []
         try {
@@ -138,6 +159,26 @@ export const listsRouter = createTRPCRouter({
         )
 
         await ctx.prisma.listItem.createMany({ data: itemsForCreate })
+      })
+    }),
+
+  updateListorganization: privateProcedure
+    .input(
+      z.object({
+        listId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.orgId == null) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "organization not specified",
+        })
+      }
+
+      await ctx.prisma.list.update({
+        where: { id: input.listId },
+        data: { organizationId: ctx.orgId },
       })
     }),
 })

@@ -1,45 +1,58 @@
+import {
+    useOrganizationList,
+    useOrganizations
+} from "@clerk/nextjs"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, type SubmitErrorHandler } from "react-hook-form"
+import { z } from "zod"
 import { Logger } from "~/utils/logger"
-import {
-  renameListSchema,
-  type renameListType,
-} from "~/utils/schemas/listSchemas"
+import { type newListType } from "~/utils/schemas/listSchemas"
 import { ButtonPrimary } from "../Buttons/PrimaryButton"
-import { useListComponent } from "../ListComponent/useListComponent"
 import { BasicModal } from "./BasicModal"
 
-interface RenameListModalProps {
+interface CreateorganizationModalProps {
   isOpen: boolean
   handleClose: () => void
-  id: string
 }
 
-export const RenameListModal = ({
+const organizationSchema = z.object({ name: z.string().min(3) })
+
+type organizationType = z.infer<typeof organizationSchema>
+
+export const CreateorganizationModal = ({
   isOpen,
   handleClose,
-  id,
-}: RenameListModalProps) => {
+}: CreateorganizationModalProps) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<renameListType>({
-    defaultValues: { listName: "", id },
-    resolver: zodResolver(renameListSchema),
+  } = useForm<organizationType>({
+    defaultValues: { name: "" },
+    resolver: zodResolver(organizationSchema),
   })
-  const { onRenameList } = useListComponent({ id })
+ 
+  const { setActive } = useOrganizationList()
+  const { createOrganization } = useOrganizations()
 
-  const onSubmit = async ({ listName }: renameListType) => {
-    await onRenameList({ listName })
+  const onSubmit = async ({ name }: organizationType) => {
+    if (createOrganization == null || setActive == null) {
+      return
+    }
+    const newOrganization = await createOrganization({ name: name })
+
+    await setActive({ organization: newOrganization })
+
+    // TODO: Add logo with UploadThing
     handleClose()
+  }
+
+  const onInvalidSubmit: SubmitErrorHandler<newListType> = (error) => {
+    Logger.error(error)
   }
 
   if (!isOpen) return null
 
-  const onInvalidSubmit: SubmitErrorHandler<renameListType> = (error) => {
-    Logger.error(error)
-  }
   return (
     <BasicModal>
       <div className="absolute inset-0 z-50 h-screen  w-screen ">
@@ -52,7 +65,7 @@ export const RenameListModal = ({
         <div className=" absolute left-1/2 top-1/2 z-20 grid h-80 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-th-primary-light bg-th-background bg-th-background-gradient p-8 text-th-primary-medium shadow-2xl ">
           <div className="grid grid-rows-1 ">
             <h2 className="inline justify-self-center text-2xl">
-              How would you like to rename your list?
+              How would you like to name your new organization?
             </h2>
             <span
               onClick={handleClose}
@@ -71,9 +84,9 @@ export const RenameListModal = ({
               <input
                 type="text"
                 className="m-2 w-3/4 border-2 border-th-accent-medium bg-transparent p-2"
-                {...register("listName")}
+                {...register("name")}
               />
-              <div>{errors.listName?.message}</div>
+              <div>{errors.name?.message}</div>
             </span>
 
             <div className="flex gap-4 place-self-end">
