@@ -1,20 +1,24 @@
 //https://codepen.io/enbee81/pen/oNWZBbb
 import { type RegisterOptions, useFormContext } from "react-hook-form"
 import styles from "./checkbox.module.scss"
+import classNames from "classnames"
 export const Checkbox = ({
   formName,
   registerOptions,
+  disabled = false,
 }: {
   formName: string
   registerOptions?: RegisterOptions
+  disabled?: boolean
 }) => {
   const { register } = useFormContext()
   return (
     <label className={styles.checkbox__label} aria-label="Is it done?">
       <input
-        className={styles.checkbox__input}
+        className={classNames(styles.checkbox__input, { disabled: disabled })}
         type="checkbox"
         {...register(formName, registerOptions)}
+        disabled={disabled}
       />
       <svg
         className={styles.checkbox__icon}
@@ -23,7 +27,10 @@ export const Checkbox = ({
         aria-label="It's done!"
       >
         <rect
-          className={styles.border}
+          className={classNames(
+            styles.border,
+            disabled ? styles.svgDisabled : ""
+          )}
           width="21"
           height="21"
           x=".5"
@@ -32,7 +39,10 @@ export const Checkbox = ({
           rx="3"
         />
         <path
-          className={styles.tick}
+          className={classNames(
+            styles.tick,
+            disabled ? styles.svgDisabled : ""
+          )}
           fill="none"
           strokeLinecap="round"
           strokeWidth="4"

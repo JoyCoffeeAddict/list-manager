@@ -1,26 +1,30 @@
 import classNames from "classnames"
 import type { ButtonHTMLAttributes, PropsWithChildren } from "react"
 import styles from "./PrimaryButton.module.scss"
+import { Loader } from "../Loader/Loader"
+
+interface ButtonPrimaryProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  isLoading?: boolean
+}
 
 export const ButtonPrimary = ({
   children,
   onClick,
   className,
-  type,
   disabled,
-}: PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>) => {
+  type = "button",
+  isLoading = false,
+}: PropsWithChildren<ButtonPrimaryProps>) => {
   return (
     <button
-      className={classNames(
-        styles.primary_button,
-        className,
-        disabled ? styles.primary_button_disabled : ""
-      )}
+      className={classNames(styles.primary_button, className, {
+        disabled: disabled,
+      })}
       onClick={onClick}
-      type={type || "button"}
+      type={type}
       disabled={disabled}
     >
-      {children}
+      {isLoading ? <Loader size={24} /> : children}
     </button>
   )
 }

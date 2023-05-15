@@ -61,7 +61,8 @@ export const useList = ({ listId }: { listId: string }) => {
     }
   )
 
-  const { mutate: updateList } = api.lists.updateList.useMutation()
+  const { mutate: updateList, isLoading: isUpdateLoading } =
+    api.lists.updateList.useMutation()
 
   const onSubmit = (values: SingleListForm) => {
     const newList = values.list.map((listItem, index) => ({
@@ -96,5 +97,6 @@ export const useList = ({ listId }: { listId: string }) => {
     onInvalidSubmit,
     fieldArrayMethods,
     list,
+    isUpdateLoading,
   }
 }

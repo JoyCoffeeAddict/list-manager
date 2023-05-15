@@ -16,15 +16,17 @@ export const MainLayout = ({
 
   return (
     <div className={styles.layout}>
-      <nav className="flex w-full items-center justify-between border-b-2 border-th-accent-medium p-4 text-th-primary-dark">
+      <nav className="grid w-full grid-cols-3 items-center border-b-2 border-th-accent-medium p-4 text-th-primary-dark">
         <div>
           <Link href="/" className=" flex items-center gap-2">
             <Image src="/favicon.ico" width={32} height={32} alt="logo" />
             <span>List Manager</span>
           </Link>
         </div>
-        <span className="text-2xl leading-none">{listName || ""}</span>
-        <div className="flex gap-2 pr-4">
+        <span className="justify-self-center text-2xl leading-none">
+          {listName || ""}
+        </span>
+        <div className="flex gap-2 justify-self-end pr-4">
           <ThemeChanger />
           {isSignedIn && user != null ? (
             <>

@@ -6,13 +6,16 @@ import { useListItem } from "./useListItem"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDeleteLeft, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { Position, Tooltip } from "../Tooltip/Tooltip"
+import classNames from "classnames"
 
 export const ListItemComponent = ({
   index,
   remove,
+  disabled,
 }: {
   index: number
   remove: UseFieldArrayRemove
+  disabled: boolean
 }) => {
   const {
     register,
@@ -26,17 +29,22 @@ export const ListItemComponent = ({
       <li className="m-4 flex flex-col focus-visible:outline-transparent">
         <label className="flex grow items-center">
           <span>{index + 1}.</span>
-          <Checkbox formName={checkedKey} />
+          <Checkbox formName={checkedKey} disabled={disabled} />
           <label aria-label={`item number ${index + 1}`} className="grow">
             <input
-              className="w-full border-2 border-th-accent-medium bg-transparent p-2 outline-transparent focus:outline-transparent"
+              className={classNames(
+                "w-full border-2 border-th-accent-medium bg-transparent p-2 outline-transparent focus:outline-transparent",
+                { disabled: disabled }
+              )}
               {...register(contentKey)}
+              disabled={disabled}
             />
           </label>
           <Tooltip title="Clear" position={Position.Left}>
             <ButtonPrimary
               className="!rounded-none !border-l-0"
               onClick={clearInput}
+              disabled={disabled}
             >
               <FontAwesomeIcon icon={faDeleteLeft} />
             </ButtonPrimary>
@@ -45,6 +53,7 @@ export const ListItemComponent = ({
             <ButtonPrimary
               className="!rounded-none !border-l-0"
               onClick={() => remove(index)}
+              disabled={disabled}
             >
               <FontAwesomeIcon icon={faTrash} />
             </ButtonPrimary>

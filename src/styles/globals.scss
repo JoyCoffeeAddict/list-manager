@@ -52,3 +52,11 @@
 body {
   @apply min-h-screen overflow-hidden bg-th-background;
 }
+
+@layer utilities {
+  .disabled {
+    pointer-events: none !important;
+    border-color: theme("colors.slate.300") !important;
+    color: theme("colors.slate.300") !important;
+  }
+}

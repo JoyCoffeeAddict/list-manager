@@ -1,6 +1,7 @@
 import { useUser } from "@clerk/nextjs"
 import classNames from "classnames"
 import { type NextPage } from "next"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { FormProvider } from "react-hook-form"
 import { MainLayout } from "~/Layouts/mainLayout"
@@ -23,6 +24,7 @@ const ListView: NextPage = () => {
     onInvalidSubmit,
     fieldArrayMethods,
     list,
+    isUpdateLoading,
   } = useList({
     listId: newListId,
   })
@@ -60,10 +62,16 @@ const ListView: NextPage = () => {
                 key={formArrayId}
                 index={index}
                 remove={remove}
+                disabled={isUpdateLoading}
               />
             ))}
           </ul>
           <div className="flex justify-center gap-4">
+            <Link href="/">
+              <ButtonPrimary className="">
+                <span>Go back to lists</span>
+              </ButtonPrimary>
+            </Link>
             <ButtonPrimary
               type="button"
               className=""
@@ -77,11 +85,18 @@ const ListView: NextPage = () => {
                   id: undefined,
                 })
               }
+              disabled={isUpdateLoading}
+              isLoading={isUpdateLoading}
             >
               Add
             </ButtonPrimary>
-            <ButtonPrimary type="submit" className="" disabled={isInvalid}>
-              Save
+            <ButtonPrimary
+              type="submit"
+              className=""
+              disabled={isInvalid || isUpdateLoading || fields.length === 0}
+              isLoading={isUpdateLoading}
+            >
+              <span>Save</span>
             </ButtonPrimary>
           </div>
         </form>

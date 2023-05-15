@@ -25,7 +25,9 @@ export const ThemeChanger = () => {
           onChange={(e) => setTheme(e.currentTarget.value)}
           value={theme}
         >
-          <option value="">Select Theme</option>
+          <option value="" className="hidden">
+            Select Theme
+          </option>
           {themes.map((t) => (
             <option key={t.name.toLowerCase()} value={t.name.toLowerCase()}>
               {t.name}

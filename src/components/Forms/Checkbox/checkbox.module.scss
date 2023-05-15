@@ -33,6 +33,10 @@
     .border {
       @apply stroke-th-accent-medium stroke-2;
     }
+
+    .svgDisabled {
+      @apply stroke-slate-300;
+    }
   }
 
   &__label {
