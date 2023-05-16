@@ -1,7 +1,4 @@
-import {
-    useOrganizationList,
-    useOrganizations
-} from "@clerk/nextjs"
+import { useOrganizationList, useOrganizations } from "@clerk/nextjs"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, type SubmitErrorHandler } from "react-hook-form"
 import { z } from "zod"
@@ -15,7 +12,7 @@ interface CreateorganizationModalProps {
   handleClose: () => void
 }
 
-const organizationSchema = z.object({ name: z.string().min(3) })
+const organizationSchema = z.object({ name: z.string().min(2).max(32) })
 
 type organizationType = z.infer<typeof organizationSchema>
 
@@ -31,7 +28,7 @@ export const CreateorganizationModal = ({
     defaultValues: { name: "" },
     resolver: zodResolver(organizationSchema),
   })
- 
+
   const { setActive } = useOrganizationList()
   const { createOrganization } = useOrganizations()
 

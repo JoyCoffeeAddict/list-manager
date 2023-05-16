@@ -12,6 +12,7 @@ export const useListComponent = ({ id }: { id: string }) => {
       {
         onSuccess: () => {
           void ctx.lists.getUserPrivateLists.invalidate()
+          void ctx.lists.getCurrentUserOrganizationLists.invalidate()
         },
       }
     )
@@ -32,6 +33,7 @@ export const useListComponent = ({ id }: { id: string }) => {
       {
         onSuccess: () => {
           void ctx.lists.getUserPrivateLists.invalidate()
+          void ctx.lists.getCurrentUserOrganizationLists.invalidate()
         },
       }
     )

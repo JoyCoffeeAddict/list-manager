@@ -43,6 +43,8 @@ export const listsRouter = createTRPCRouter({
     })
   }),
   getCurrentUserOrganizationLists: privateProcedure.query(async ({ ctx }) => {
+    if (ctx.orgId == null) return []
+
     return await ctx.prisma.list.findMany({
       where: {
         organizationId: ctx.orgId,
@@ -78,8 +80,8 @@ export const listsRouter = createTRPCRouter({
     .input(z.object({ id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.$transaction([
+        // ctx.prisma.listItem.deleteMany({ where: { listId: input.id } }),
         ctx.prisma.list.delete({ where: { id: input.id } }),
-        ctx.prisma.listItem.deleteMany({ where: { listId: input.id } }),
       ])
     }),
 

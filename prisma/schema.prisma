@@ -16,7 +16,7 @@ model ListItem {
     content  String
     checked  Boolean @default(false)
     authorId String
-    list     List    @relation(fields: [listId], references: [id])
+    list     List    @relation(fields: [listId], references: [id], onDelete: Cascade)
     listId   String
     sequence Int
 

@@ -7,25 +7,18 @@ import { LoadingPage } from "../Loader/Loader"
 import { CreateListModal } from "../Modals/CreateListModal"
 import styles from "./ListFeed.module.scss"
 
-const NoListsComponent = () => {
-  return (
-    <div className="border-2 border-th-accent-medium p-3">
-      <span>Start by creating your first list!</span>
-    </div>
-  )
-}
-
 export const ListsFeed = () => {
   const [isCreateListModalOpen, setIsCreateListModalOpen] = useState(false)
 
   const { data: lists, isLoading } = api.lists.getUserPrivateLists.useQuery(
     undefined,
-    { refetchOnMount: false }
+    { refetchOnMount: true, refetchOnWindowFocus: false }
   )
 
   const { data: organizationLists, isLoading: isLoadingOrganizationLists } =
     api.lists.getCurrentUserOrganizationLists.useQuery(undefined, {
-      refetchOnMount: false,
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
     })
 
   const { organizationList } = useOrganizationList()
@@ -56,26 +49,41 @@ export const ListsFeed = () => {
     <>
       <div className={styles.feedWrapper}>
         <div className="flex flex-1 flex-col  overflow-y-auto">
-          <h2 className="p-4 pb-0">Your Private Lists: </h2>
-          <ul className="mb-8 p-4">
-            {lists != null && lists.length !== 0 ? (
-              lists?.map(({ id, listName, organizationId }) => (
-                <ListComponent
-                  id={id}
-                  listName={listName}
-                  key={id}
-                  organizationName={getOrganizationName(organizationId)}
-                />
-              ))
-            ) : (
-              <NoListsComponent />
-            )}
-          </ul>
+          {lists != null &&
+          organizationList != null &&
+          lists.length === 0 &&
+          organizationLists?.length !== 0 ? (
+            <h2 className="p-4 pb-0">
+              You don&apos;t have any private list yet!
+            </h2>
+          ) : null}
+          {lists != null && lists.length !== 0 ? (
+            <>
+              <h2 className="p-4 pb-0">Your Private Lists: </h2>
+              <ul className="mb-8 p-4">
+                {lists?.map(({ id, listName, organizationId }) => (
+                  <ListComponent
+                    id={id}
+                    listName={listName}
+                    key={id}
+                    organizationName={getOrganizationName(organizationId)}
+                  />
+                ))}
+              </ul>
+            </>
+          ) : null}
+
+          {(lists == null || lists.length === 0) &&
+          (organizationLists == null || organizationLists.length === 0) ? (
+            <h1 className="p-4 text-center text-3xl">
+              Start by creating your first list!
+            </h1>
+          ) : null}
 
           {organizationLists != null && organizationLists.length !== 0 ? (
             <>
               <h2 className="p-4 pb-0">
-                {getOrganizationName(currentOrganization?.id)} Lists:{" "}
+                {getOrganizationName(currentOrganization?.id)} Lists:
               </h2>
 
               <ul className="mb-8 p-4">

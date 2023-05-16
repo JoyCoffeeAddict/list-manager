@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { ThemeChanger } from "~/components/ThemeChanger"
+import { ThemeChanger } from "~/components/ThemeChanger/ThemeChanger"
 
 export const NotAuthedNavbar = () => {
   return (
@@ -14,7 +14,9 @@ export const NotAuthedNavbar = () => {
       </div>
 
       <div className="flex gap-2 justify-self-end pr-4">
-        <ThemeChanger />
+        <li className="block border-2 border-th-accent-medium hover:bg-th-background-secondary hover:bg-th-background-gradient">
+          <ThemeChanger />
+        </li>
       </div>
     </nav>
   )

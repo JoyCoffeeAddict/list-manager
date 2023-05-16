@@ -54,7 +54,7 @@ export const CreateListModal = ({
           onClick={handleClose}
         ></div>
         {/* content */}
-        <div className=" absolute left-1/2 top-1/2 z-20 grid h-80 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-th-primary-light bg-th-background bg-th-background-gradient p-8 text-th-primary-medium shadow-2xl ">
+        <div className=" absolute left-1/2 top-1/2 z-20 grid h-80 w-full max-w-3xl -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-th-primary-light bg-th-background bg-th-background-gradient p-8 text-th-primary-medium shadow-2xl ">
           <div className="grid grid-rows-1 ">
             <h2 className="inline justify-self-center text-2xl">
               How would you like to name your new list?

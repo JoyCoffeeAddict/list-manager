@@ -1,6 +1,4 @@
-import {
-  useOrganization
-} from "@clerk/nextjs"
+import { useOrganization } from "@clerk/nextjs"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, type SubmitErrorHandler } from "react-hook-form"
 import { z } from "zod"
@@ -34,7 +32,7 @@ export const InviteToOrganization = ({
     defaultValues: { email: "", role: "basic_member" },
     resolver: zodResolver(inviteToOrganizationSchema),
   })
-  const { organization,  } = useOrganization()
+  const { organization } = useOrganization()
 
   const onSubmit = async ({ email, role }: inviteToOrganizationType) => {
     if (organization == null) {
@@ -65,7 +63,7 @@ export const InviteToOrganization = ({
           className="z-10 h-screen w-screen bg-white  bg-opacity-60 backdrop-blur-sm"
           onClick={handleClose}
         ></div>
-        <div className=" absolute left-1/2 top-1/2 z-20 grid h-80 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-th-primary-light bg-th-background bg-th-background-gradient p-8 text-th-primary-medium shadow-2xl ">
+        <div className=" absolute left-1/2 top-1/2 z-20 grid h-2/3 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-th-primary-light bg-th-background bg-th-background-gradient p-8 text-th-primary-medium shadow-2xl md:h-96 ">
           <div className="grid grid-rows-1 ">
             <h2 className="inline justify-self-center text-2xl">
               Invite by typing an email to your friend!
@@ -79,7 +77,7 @@ export const InviteToOrganization = ({
           </div>
 
           <form
-            className="grid h-full place-items-center "
+            className="grid h-full place-items-center gap-4 "
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}
           >
@@ -91,7 +89,7 @@ export const InviteToOrganization = ({
               />
               <div>{errors.email?.message}</div>
             </span>
-            <ul className="grid w-full gap-6 md:grid-cols-2">
+            <ul className="grid w-full grid-rows-1 gap-6 md:grid-cols-2">
               <li>
                 <input
                   type="radio"
@@ -100,15 +98,19 @@ export const InviteToOrganization = ({
                   className="peer hidden"
                   {...register("role")}
                 />
+                {/* TODO: Re-style */}
                 <label
                   htmlFor="basic_member"
-                  className="inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+                  className="inline-flex h-full w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
                 >
                   <div className="block">
                     <div className="w-full text-lg font-semibold">
                       Basic member
                     </div>
-                    <div className="w-full">Good for small websites</div>
+                    <div className="w-full">
+                      Can edit all of the lists and their items in this
+                      organization.
+                    </div>
                   </div>
                 </label>
               </li>
@@ -118,14 +120,17 @@ export const InviteToOrganization = ({
                   id="admin"
                   value="admin"
                   className="peer hidden"
+                  {...register("role")}
                 />
                 <label
                   htmlFor="admin"
-                  className="inline-flex w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+                  className="inline-flex h-full w-full cursor-pointer justify-between rounded-lg border border-gray-200 bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
                 >
                   <div className="block">
                     <div className="w-full text-lg font-semibold">Admin</div>
-                    <div className="w-full">Good for large websites</div>
+                    <div className="w-full">
+                      Can invite and remove users from organization.
+                    </div>
                   </div>
                 </label>
               </li>
