@@ -6,6 +6,7 @@ import { Logger } from "~/utils/logger"
 import { type newListType } from "~/utils/schemas/listSchemas"
 import { ButtonPrimary } from "../Buttons/PrimaryButton"
 import { BasicModal } from "./BasicModal"
+import { useRouter } from "next/router"
 
 interface CreateorganizationModalProps {
   isOpen: boolean
@@ -28,7 +29,7 @@ export const CreateorganizationModal = ({
     defaultValues: { name: "" },
     resolver: zodResolver(organizationSchema),
   })
-
+  const router = useRouter()
   const { setActive } = useOrganizationList()
   const { createOrganization } = useOrganizations()
 
@@ -39,6 +40,7 @@ export const CreateorganizationModal = ({
     const newOrganization = await createOrganization({ name: name })
 
     await setActive({ organization: newOrganization })
+    await router.push("/")
 
     // TODO: Add logo with UploadThing
     handleClose()
@@ -88,9 +90,9 @@ export const CreateorganizationModal = ({
 
             <div className="flex gap-4 place-self-end">
               <ButtonPrimary type="button" onClick={handleClose}>
-                cancel
+                Cancel
               </ButtonPrimary>
-              <ButtonPrimary type="submit">save</ButtonPrimary>
+              <ButtonPrimary type="submit">Save</ButtonPrimary>
             </div>
           </form>
         </div>

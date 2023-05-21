@@ -1,8 +1,8 @@
 import {
-    faCircleArrowRight,
-    faHouseCircleCheck,
-    faPenToSquare,
-    faTrash,
+  faCircleArrowRight,
+  faHouseCircleCheck,
+  faPenToSquare,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Link from "next/link"
@@ -14,6 +14,7 @@ import { Position, Tooltip } from "../Tooltip/Tooltip"
 
 import styles from "./ListComponent.module.scss"
 import { useListComponent } from "./useListComponent"
+import { ConfirmDialog } from "../Modals/ConfirmDialog"
 
 interface ListComponentProps {
   id: string
@@ -27,6 +28,8 @@ export const ListComponent = ({
   organizationName,
 }: ListComponentProps) => {
   const [isRenameListModalOpen, setIsRenameListModalOpen] = useState(false)
+  const [isDeleteListModalOpen, setIsDeleteListModalOpen] = useState(false)
+
   const { onRemoveList, organization, onAssignListToorganization } =
     useListComponent({ id })
   const ctx = api.useContext()
@@ -74,7 +77,7 @@ export const ListComponent = ({
           <Tooltip title="Delete" position={Position.Left}>
             <ButtonPrimary
               className={styles.listNameAction}
-              onClick={onRemoveList}
+              onClick={() => setIsDeleteListModalOpen(true)}
               type="button"
             >
               <FontAwesomeIcon icon={faTrash} />
@@ -90,6 +93,15 @@ export const ListComponent = ({
             setIsRenameListModalOpen(false)
           }}
           id={id}
+        />
+      ) : null}
+      {isDeleteListModalOpen ? (
+        <ConfirmDialog
+          isOpen={isDeleteListModalOpen}
+          handleClose={() => setIsDeleteListModalOpen(false)}
+          handleConfirm={onRemoveList}
+          title="Do you want to delete this list?"
+          description="This is irreversable! You will delete this list and all of it's list items"
         />
       ) : null}
     </>

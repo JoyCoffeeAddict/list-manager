@@ -138,9 +138,9 @@ export const InviteToOrganization = ({
 
             <div className="flex gap-4 place-self-end">
               <ButtonPrimary type="button" onClick={handleClose}>
-                cancel
+                Cancel
               </ButtonPrimary>
-              <ButtonPrimary type="submit">save</ButtonPrimary>
+              <ButtonPrimary type="submit">Save</ButtonPrimary>
             </div>
           </form>
         </div>
