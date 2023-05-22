@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 
-const themes = [{ name: "Light" }, { name: "Dark" }, { name: "Fancy" }]
+const themes = [{ name: "Light" }, { name: "Dark" }, { name: "Fancy" }, { name: "Lavender" }]
 
 export const ThemeChanger = () => {
   const [mounted, setMounted] = useState(false)

@@ -1,0 +1,10 @@
+.listItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+}
+
+.errorMessage {
+  grid-column: 2 / -1;
+  @apply text-th-error;
+}

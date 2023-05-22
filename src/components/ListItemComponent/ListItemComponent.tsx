@@ -1,12 +1,18 @@
+import {
+  faCaretDown,
+  faCaretUp,
+  faDeleteLeft,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import classNames from "classnames"
 import { useFormContext, type UseFieldArrayRemove } from "react-hook-form"
 import { type SingleListForm } from "~/hooks/useList"
 import { ButtonPrimary } from "../Buttons/PrimaryButton"
 import { Checkbox } from "../Forms/Checkbox/Checkbox"
-import { useListItem } from "./useListItem"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faDeleteLeft, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { Position, Tooltip } from "../Tooltip/Tooltip"
-import classNames from "classnames"
+import styles from "./ListItemComponent.module.scss"
+import { useListItem } from "./useListItem"
 
 export const ListItemComponent = ({
   index,
@@ -26,8 +32,23 @@ export const ListItemComponent = ({
 
   return (
     <>
-      <li className="m-4 flex flex-col focus-visible:outline-transparent">
+      <li
+        className={classNames(
+          styles.listItem,
+          "m-4 flex flex-col focus-visible:outline-transparent"
+        )}
+      >
+        <div className="flex flex-col px-2">
+          <button className=" translate-y-1  text-2xl leading-none hover:text-th-accent-medium">
+            <FontAwesomeIcon icon={faCaretUp} />
+          </button>
+          <button className="-translate-y-1 text-2xl leading-none hover:text-th-accent-medium">
+            <FontAwesomeIcon icon={faCaretDown} />
+          </button>
+        </div>
         <label className="flex grow items-center">
+          {/* Swap order */}
+
           <span>{index + 1}.</span>
           <Checkbox formName={checkedKey} disabled={disabled} />
           <label aria-label={`item number ${index + 1}`} className="grow">
@@ -60,7 +81,9 @@ export const ListItemComponent = ({
           </Tooltip>
         </label>
         {errors.list?.[index]?.content?.message != null ? (
-          <span>{errors.list?.[index]?.content?.message}</span>
+          <span className={styles.errorMessage}>
+            {errors.list?.[index]?.content?.message}
+          </span>
         ) : null}
       </li>
     </>
