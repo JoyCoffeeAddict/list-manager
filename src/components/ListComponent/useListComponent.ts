@@ -35,10 +35,25 @@ export const useListComponent = ({ id }: { id: string }) => {
   }
 
   const { organization } = useOrganization()
-  const { mutate: assignListToorganization } =
-    api.lists.updateListorganization.useMutation()
-  const onAssignListToorganization = () => {
-    assignListToorganization(
+  const { mutate: assignListToOrganization } =
+    api.lists.updateListOrganization.useMutation()
+
+  const onAssignListToOrganization = () => {
+    assignListToOrganization(
+      { listId: id },
+      {
+        onSuccess: () => {
+          invalidateLists()
+        },
+      }
+    )
+  }
+
+  const { mutate: removeListOrganization } =
+    api.lists.removeListOrganization.useMutation()
+
+  const onRemoveListFromOrganization = () => {
+    removeListOrganization(
       { listId: id },
       {
         onSuccess: () => {
@@ -51,7 +66,8 @@ export const useListComponent = ({ id }: { id: string }) => {
   return {
     onRemoveList,
     onRenameList,
-    onAssignListToorganization,
     organization,
+    onAssignListToOrganization,
+    onRemoveListFromOrganization,
   }
 }

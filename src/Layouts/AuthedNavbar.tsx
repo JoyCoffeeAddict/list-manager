@@ -72,7 +72,7 @@ export const AuthedNavbar = ({ listName }: { listName?: string }) => {
                     onClick={() => {
                       setIsInviteToOrgOpen(true)
                     }}
-                    className="px-4 py-2"
+                    className="w-full px-4 py-2 text-left"
                   >
                     <span>Invite to Organisation</span>
                   </button>
@@ -85,7 +85,7 @@ export const AuthedNavbar = ({ listName }: { listName?: string }) => {
                 onClick={() => {
                   setIsCreateOrganizationModalOpen(true)
                 }}
-                className="px-4 py-2"
+                className="w-full px-4 py-2 text-left"
               >
                 Create organization
               </button>

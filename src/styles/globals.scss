@@ -1,62 +1,63 @@
+@use "./colors";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 // Primary colors are for text, accent colors are for other colors
 
 :root {
   --tw-bg-opacity: 1;
-  --background: theme(colors.gray.50 / var(--tw-bg-opacity));
-  --background-secondary: theme(colors.gray.100 / var(--tw-bg-opacity));
+  --background: var(--gray-50);
+  --background-secondary: var(--gray-200);
 
-  --primary-dark: theme(colors.gray.900);
-  --primary-medium: theme(colors.gray.700);
-  --primary-light: theme(colors.gray.400);
+  --primary-dark: var(--gray-900);
+  --primary-medium: var(--gray-700);
+  --primary-light: var(--gray-400);
 
-  --accent-dark: theme(colors.blue.500);
-  --accent-medium: theme(colors.blue.400);
-  --accent-light: theme(colors.blue.300);
-  --error: theme(colors.red.600);
-  --disabled: theme(colors.slate.500);
+  --accent-dark: var(--malibu-500);
+  --accent-medium: var(--malibu-400);
+  --accent-light: var(--malibu-300);
+
+  --error: var(--red-600);
+  --disabled: var(--slate-500);
 }
 
 [data-theme="dark"] {
-  --background: theme(colors.gray.900 / var(--tw-bg-opacity));
-  --background-secondary: theme(colors.gray.700 / var(--tw-bg-opacity));
+  --background: var(--gray-900);
+  --background-secondary: var(--gray-700);
 
-  --primary-dark: theme(colors.gray.300);
-  --primary-medium: theme(colors.gray.200);
-  --primary-light: theme(colors.gray.100);
+  --primary-dark: var(--gray-300);
+  --primary-medium: var(--gray-200);
+  --primary-light: var(--gray-100);
 
-  --accent-dark: theme(colors.blue.300);
-  --accent-medium: theme(colors.blue.800);
-  --accent-light: theme(colors.blue.950);
+  --accent-dark: var(--malibu-300);
+  --accent-medium: var(--malibu-500);
+  --accent-light: var(--malibu-950);
 
-  --error: theme(colors.red.300);
+  --error: var(--red-300);
 
-  --disabled: theme(colors.slate.300);
+  --disabled: var(--slate-300);
 }
 
 [data-theme="lavender"] {
-  --background: theme(colors.lavender.300 / var(--tw-bg-opacity));
-  --background-secondary: theme(colors.lavender.500 / var(--tw-bg-opacity));
+  --background: var(--lavender-500);
+  --background-secondary: var(--lavender-700);
 
-  --primary-dark: theme(colors.gray.900);
-  --primary-medium: theme(colors.gray.800);
-  --primary-light: theme(colors.gray.700);
+  --primary-dark: var(--gray-900);
+  --primary-medium: var(--gray-800);
+  --primary-light: var(--gray-700);
 
-  --accent-dark: theme(colors.eggplant.950);
-  --accent-medium: theme(colors.eggplant.900);
-  --accent-light: theme(colors.eggplant.800);
+  --accent-dark: var(--eggplant-950);
+  --accent-medium: var(--eggplant-900);
+  --accent-light: var(--eggplant-800);
 
-  --error: theme(colors.black);
+  --error: var(--black);
 
-  --disabled: theme(colors.slate.500);
+  --disabled: var(--slate-500);
 }
 
 [data-theme="fancy"] {
-  --primary: 176, 11, 105;
-  --secondary: 66, 6, 144;
+  --primary: 176 11 105;
+  --secondary: 66 6 144;
   --background-gradient: linear-gradient(
     to bottom,
     rgb(var(--primary)),
@@ -67,18 +68,18 @@
     rgb(var(--secondary)),
     rgb(var(--primary))
   );
-  --background: rgb(var(--primary), var(--tw-bg-opacity));
-  --background-secondary: transparent;
+  --background: var(--primary);
+  --background-secondary: var(--secondary);
 
-  --primary-dark: theme(colors.gray.300);
-  --primary-medium: theme(colors.gray.200);
-  --primary-light: theme(colors.gray.100);
+  --primary-dark: var(--gray-300);
+  --primary-medium: var(--gray-200);
+  --primary-light: var(--gray-100);
 
-  --accent-dark: theme(colors.blue.300);
-  --accent-medium: theme(colors.blue.400);
-  --accent-light: theme(colors.blue.950);
-  --error: theme(colors.white);
-  --disabled: theme(colors.slate.300);
+  --accent-dark: var(--malibu-300);
+  --accent-medium: var(--malibu-400);
+  --accent-light: var(--malibu-950);
+  --error: var(--white);
+  --disabled: var(--slate-300);
 }
 
 @mixin disabled {

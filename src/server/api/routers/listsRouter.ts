@@ -164,7 +164,7 @@ export const listsRouter = createTRPCRouter({
       })
     }),
 
-  updateListorganization: privateProcedure
+  updateListOrganization: privateProcedure
     .input(
       z.object({
         listId: z.string(),
@@ -181,6 +181,18 @@ export const listsRouter = createTRPCRouter({
       await ctx.prisma.list.update({
         where: { id: input.listId },
         data: { organizationId: ctx.orgId },
+      })
+    }),
+  removeListOrganization: privateProcedure
+    .input(
+      z.object({
+        listId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.list.update({
+        where: { id: input.listId },
+        data: { organizationId: null },
       })
     }),
 })

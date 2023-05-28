@@ -30,13 +30,17 @@ export const ListComponent = ({
   const [isRenameListModalOpen, setIsRenameListModalOpen] = useState(false)
   const [isDeleteListModalOpen, setIsDeleteListModalOpen] = useState(false)
 
-  const { onRemoveList, organization, onAssignListToorganization } =
-    useListComponent({ id })
+  const {
+    onRemoveList,
+    organization,
+    onAssignListToOrganization,
+    onRemoveListFromOrganization,
+  } = useListComponent({ id })
   const ctx = api.useContext()
 
   return (
     <>
-      <li className="flex">
+      <li className="my-2 flex">
         <Link href={`/${id}`} className="contents">
           <div className="flex grow items-center justify-between border-2 border-th-accent-medium p-3">
             <span>{listName}</span>
@@ -53,7 +57,7 @@ export const ListComponent = ({
             >
               <ButtonIcon
                 className="h-full !rounded-none !border-l-0 py-3"
-                onClick={onAssignListToorganization}
+                onClick={onAssignListToOrganization}
                 type="button"
                 icon={faHouseCircleCheck}
               />
@@ -67,7 +71,7 @@ export const ListComponent = ({
             >
               <ButtonIcon
                 className="h-full !rounded-none !border-l-0 py-3"
-                onClick={onAssignListToorganization}
+                onClick={onRemoveListFromOrganization}
                 type="button"
                 icon={faHouseCircleXmark}
               />

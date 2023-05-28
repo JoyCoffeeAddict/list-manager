@@ -58,12 +58,12 @@ export const InviteToOrganization = ({
 
   return (
     <BasicModal>
-      <div className="absolute inset-0 z-50 h-screen  w-screen ">
+      <div className="absolute inset-0 z-50 h-screen  w-screen">
         <div
           className="z-10 h-screen w-screen bg-white  bg-opacity-60 backdrop-blur-sm"
           onClick={handleClose}
         ></div>
-        <div className=" absolute left-1/2 top-1/2 z-20 grid h-2/3 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-th-primary-light bg-th-background bg-th-background-gradient p-8 text-th-primary-medium shadow-2xl md:h-96 ">
+        <div className=" absolute left-1/2 top-1/2 z-20 grid h-2/3 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-th-primary-light bg-th-background bg-th-background-gradient p-8 text-th-primary-medium shadow-2xl md:h-96 sm:w-10/12 ">
           <div className="grid grid-rows-1 ">
             <h2 className="inline justify-self-center text-2xl">
               Invite by typing an email to your friend!
@@ -101,7 +101,7 @@ export const InviteToOrganization = ({
                 {/* TODO: Re-style */}
                 <label
                   htmlFor="basic_member"
-                  className="inline-flex h-full w-full cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+                  className="inline-flex h-full w-full cursor-pointer items-center justify-between rounded-lg border border-th-accent-light  p-5 hover:bg-th-background-secondary/30  peer-checked:bg-th-background-secondary "
                 >
                   <div className="block">
                     <div className="w-full text-lg font-semibold">
@@ -124,7 +124,7 @@ export const InviteToOrganization = ({
                 />
                 <label
                   htmlFor="admin"
-                  className="inline-flex h-full w-full cursor-pointer justify-between rounded-lg border border-gray-200 bg-white p-5 text-gray-500 hover:bg-gray-100 hover:text-gray-600 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+                  className="inline-flex h-full w-full cursor-pointer items-center justify-between rounded-lg border border-th-accent-light  p-5 hover:bg-th-background-secondary/30  peer-checked:bg-th-background-secondary "
                 >
                   <div className="block">
                     <div className="w-full text-lg font-semibold">Admin</div>
