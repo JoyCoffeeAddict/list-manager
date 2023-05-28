@@ -1,6 +1,5 @@
 import { SignOutButton, useOrganization, useUser } from "@clerk/nextjs"
 import Image from "next/image"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
 
@@ -26,50 +25,27 @@ export const AuthedNavbar = ({ listName }: { listName?: string }) => {
 
   return (
     <>
-      <nav
-        className="relative grid w-full items-center border-b-2 border-th-accent-medium p-4 px-2 text-th-primary-dark sm:px-10"
-        style={{
-          gridTemplateColumns: listName != null ? "auto 1fr auto" : "auto auto",
-        }}
-      >
-        <div>
-          <Link href="/" className=" flex items-center gap-2">
-            <Image
-              src="/favicon.ico"
-              width={32}
-              height={32}
-              alt="logo"
-              className="h-8 w-8"
-            />
-            <span className="text-xs sm:text-base">List Manager</span>
-          </Link>
+      <nav className="relative flex w-full items-center justify-center border-b-2 border-th-accent-medium p-4 px-2 text-th-primary-dark sm:px-10">
+        <div className="text:lg min-h-[2rem]  justify-self-center px-20 text-center sm:text-2xl">
+          {listName || ""}
         </div>
 
-        {listName != null ? (
-          <span className="text:lg justify-self-center text-center leading-none sm:text-2xl">
-            {listName}
-          </span>
-        ) : null}
-
-        <span className="flex items-center gap-3 justify-self-end">
+        <span className="absolute right-2 flex items-center  gap-3 sm:right-10">
           <Image
             src={user.profileImageUrl}
             alt={`${user.username || ""}'s profile pic`}
             width={32}
             height={32}
-            className="h-8 w-8"
+            className="h-6 w-6 md:h-8 md:w-8"
           />
           {/* menu button */}
           <button
             onClick={() => {
               setIsMenuOpen((open) => !open)
             }}
-            className="h-6 w-6 text-base"
+            className="h-6 w-6 text-xl !leading-none   md:text-2xl"
           >
-            <FontAwesomeIcon
-              className="text-2xl"
-              icon={isMenuOpen ? faX : faBars}
-            />
+            <FontAwesomeIcon icon={isMenuOpen ? faX : faBars} />
           </button>
         </span>
 

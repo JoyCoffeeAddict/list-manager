@@ -3,7 +3,8 @@ import type { ButtonHTMLAttributes, PropsWithChildren } from "react"
 import styles from "./PrimaryButton.module.scss"
 import { Loader } from "../Loader/Loader"
 
-interface ButtonPrimaryProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonPrimaryProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean
 }
 
@@ -17,9 +18,7 @@ export const ButtonPrimary = ({
 }: PropsWithChildren<ButtonPrimaryProps>) => {
   return (
     <button
-      className={classNames(styles.primary_button, className, {
-        disabled: disabled,
-      })}
+      className={classNames(styles.primary_button, className)}
       onClick={onClick}
       type={type}
       disabled={disabled}

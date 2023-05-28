@@ -63,6 +63,7 @@ const ListView: NextPage = () => {
                 index={index}
                 remove={remove}
                 disabled={isUpdateLoading}
+                isLast={index === fields.length - 1}
               />
             ))}
           </ul>

@@ -5,10 +5,53 @@ import { CreateListModal } from "../Modals/CreateListModal"
 import styles from "./ListFeed.module.scss"
 import { useListFeed } from "./useListFeed"
 
-export const ListsFeed = () => {
+const CurrentOrganizationLists = () => {
   const {
     currentOrganization,
     getOrganizationName,
+    lists,
+    organizationLists,
+  } = useListFeed()
+
+  if (lists == null || organizationLists == null) {
+    return null
+  }
+
+  if (lists.length + organizationLists.length === 0) {
+    return null
+  }
+
+  return (
+    <>
+      {currentOrganization != null && currentOrganization.id != null ? (
+        <h2 className="p-4 pb-0">
+          {getOrganizationName(currentOrganization?.id)} Lists:
+        </h2>
+      ) : null}
+
+      {organizationLists != null && organizationLists.length !== 0 ? (
+        <ul className="mb-8 p-4">
+          {organizationLists?.map(({ id, listName }) => (
+            <ListComponent
+              id={id}
+              listName={listName}
+              key={id}
+              isPrivate={false}
+            />
+          ))}
+        </ul>
+      ) : (
+        <h3 className="p-4 pb-0">
+          Your organization does not have any lists, let&apos;s add some of your
+          private lists to this organization.
+        </h3>
+      )}
+    </>
+  )
+}
+
+export const ListsFeed = () => {
+  const {
     isCreateListModalOpen,
     isLoadingLists,
     isLoadingOrganizationLists,
@@ -21,6 +64,7 @@ export const ListsFeed = () => {
   if (isLoadingLists || isLoadingOrganizationLists) {
     return <LoadingPage />
   }
+
   return (
     <>
       <div className={styles.feedWrapper}>
@@ -44,35 +88,18 @@ export const ListsFeed = () => {
             <>
               <h2 className="p-4 pb-0">Your Private Lists: </h2>
               <ul className="mb-8 p-4">
-                {lists?.map(({ id, listName, organizationId }) => (
+                {lists?.map(({ id, listName }) => (
                   <ListComponent
                     id={id}
                     listName={listName}
                     key={id}
-                    organizationName={getOrganizationName(organizationId)}
+                    isPrivate
                   />
                 ))}
               </ul>
             </>
           ) : null}
-
-          {currentOrganization != null && currentOrganization.id != null ? (
-            <h2 className="p-4 pb-0">
-              {getOrganizationName(currentOrganization?.id)} Lists:
-            </h2>
-          ) : null}
-          {organizationLists != null && organizationLists.length !== 0 ? (
-            <ul className="mb-8 p-4">
-              {organizationLists?.map(({ id, listName }) => (
-                <ListComponent id={id} listName={listName} key={id} />
-              ))}
-            </ul>
-          ) : (
-            <h3 className="p-4 pb-0">
-              Your organization does not have any lists, let&apos;s add some of
-              your private lists to this organization.
-            </h3>
-          )}
+          <CurrentOrganizationLists />
         </div>
         <div className="flex justify-center p-4">
           <ButtonPrimary
@@ -84,6 +111,7 @@ export const ListsFeed = () => {
           </ButtonPrimary>
         </div>
       </div>
+      
       {isCreateListModalOpen ? (
         <CreateListModal
           isOpen={isCreateListModalOpen}

@@ -6,34 +6,43 @@ export const useListComponent = ({ id }: { id: string }) => {
 
   const { mutate: deleteList } = api.lists.deleteList.useMutation()
 
+  const invalidateLists = () => {
+    void ctx.lists.getCurrentUserOrganizationLists.invalidate()
+    void ctx.lists.getUserPrivateLists.invalidate()
+  }
+
   const onRemoveList = () => {
     deleteList(
       { id },
       {
         onSuccess: () => {
-          void ctx.lists.getUserPrivateLists.invalidate()
-          void ctx.lists.getCurrentUserOrganizationLists.invalidate()
+          invalidateLists()
         },
       }
     )
   }
 
   const { mutateAsync: renameList } = api.lists.renameList.useMutation()
-
   const onRenameList = async ({ listName }: { listName: string }) => {
-    return renameList({ id, listName })
+    return renameList(
+      { id, listName },
+      {
+        onSuccess: () => {
+          invalidateLists()
+        },
+      }
+    )
   }
 
+  const { organization } = useOrganization()
   const { mutate: assignListToorganization } =
     api.lists.updateListorganization.useMutation()
-  const { organization } = useOrganization()
   const onAssignListToorganization = () => {
     assignListToorganization(
       { listId: id },
       {
         onSuccess: () => {
-          void ctx.lists.getUserPrivateLists.invalidate()
-          void ctx.lists.getCurrentUserOrganizationLists.invalidate()
+          invalidateLists()
         },
       }
     )

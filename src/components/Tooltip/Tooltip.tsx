@@ -12,14 +12,16 @@ interface TooltipProps {
   children?: ReactNode
   title?: string
   position?: Position
+  disabled?: boolean
 }
 
 export const Tooltip = ({
   children,
   title,
   position = Position.Bottom,
+  disabled = false,
 }: TooltipProps) => {
-  if (title == null || title === "") return <>{children}</>
+  if (title == null || title === "" || disabled) return <>{children}</>
 
   const postionClass = `tooltip${position}`
 

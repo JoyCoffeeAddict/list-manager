@@ -1,21 +1,9 @@
 .primary_button {
-  @apply relative z-0 overflow-hidden rounded-md border-2 border-th-accent-medium px-2  md:px-6 py-2;
-
-  &_disabled {
-    @apply pointer-events-none border-slate-300 text-slate-300;
-
-    &::after {
-      content: none;
-    }
-  }
+  @apply relative z-0 overflow-hidden rounded-md border-2 border-th-accent-medium px-2 py-2  md:px-6;
 
   &::after {
     content: "";
-    @apply absolute inset-0 bg-th-accent-light opacity-0 transition-opacity duration-200 hover:opacity-100;
+    @apply absolute inset-0 bg-th-accent-light  bg-th-background-gradient-reversed opacity-0 transition-opacity duration-200 sm:hover:opacity-100;
     z-index: -1;
-
-    [data-theme="fancy"] & {
-      @apply bg-th-background-gradient-reversed;
-    }
   }
 }

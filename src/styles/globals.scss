@@ -17,6 +17,7 @@
   --accent-medium: theme(colors.blue.400);
   --accent-light: theme(colors.blue.300);
   --error: theme(colors.red.600);
+  --disabled: theme(colors.slate.500);
 }
 
 [data-theme="dark"] {
@@ -32,6 +33,8 @@
   --accent-light: theme(colors.blue.950);
 
   --error: theme(colors.red.300);
+
+  --disabled: theme(colors.slate.300);
 }
 
 [data-theme="lavender"] {
@@ -42,11 +45,13 @@
   --primary-medium: theme(colors.gray.800);
   --primary-light: theme(colors.gray.700);
 
-  --accent-dark: theme(colors.drover.300);
-  --accent-medium: theme(colors.drover.100);
-  --accent-light: theme(colors.drover.50);
+  --accent-dark: theme(colors.eggplant.950);
+  --accent-medium: theme(colors.eggplant.900);
+  --accent-light: theme(colors.eggplant.800);
 
-  --error: theme(colors.red.300);
+  --error: theme(colors.black);
+
+  --disabled: theme(colors.slate.500);
 }
 
 [data-theme="fancy"] {
@@ -57,7 +62,11 @@
     rgb(var(--primary)),
     rgb(var(--secondary))
   );
-  --background-gradient-reversed: linear-gradient(to bottom, #420690, #b00b69);
+  --background-gradient-reversed: linear-gradient(
+    to bottom,
+    rgb(var(--secondary)),
+    rgb(var(--primary))
+  );
   --background: rgb(var(--primary), var(--tw-bg-opacity));
   --background-secondary: transparent;
 
@@ -69,20 +78,27 @@
   --accent-medium: theme(colors.blue.400);
   --accent-light: theme(colors.blue.950);
   --error: theme(colors.white);
-
-  // body {
-  //   @apply bg-th-background bg-th-background-gradient;
-  // }
+  --disabled: theme(colors.slate.300);
 }
 
-body {
-  @apply min-h-screen overflow-hidden  bg-th-background bg-th-background-gradient;
+@mixin disabled {
+  pointer-events: none !important;
+  border-color: var(--disabled) !important;
+  color: var(--disabled) !important;
 }
 
 @layer utilities {
   .disabled {
-    pointer-events: none !important;
-    border-color: theme("colors.slate.300") !important;
-    color: theme("colors.slate.300") !important;
+    // pointer-events: none !important;
+    // border-color: theme("colors.slate.300") !important;
+    // color: theme("colors.slate.300") !important;
+    @include disabled;
+  }
+}
+body {
+  @apply min-h-screen overflow-hidden  bg-th-background bg-th-background-gradient;
+
+  *:is(input, label, button)[disabled] {
+    @include disabled;
   }
 }

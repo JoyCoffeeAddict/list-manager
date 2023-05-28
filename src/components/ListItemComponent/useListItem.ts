@@ -1,18 +1,25 @@
-import { type MouseEventHandler } from "react"
 import { useFormContext } from "react-hook-form"
 
-export const useListItem = ({ index }: { index: number }) => {
+interface useListItemProps {
+  disabled: boolean
+  index: number
+}
+
+export const useListItem = ({ index, disabled }: useListItemProps) => {
   const { setValue } = useFormContext()
   const contentKey = `list.${index}.content` as const
   const checkedKey = `list.${index}.checked` as const
 
-  const clearInput: MouseEventHandler<HTMLButtonElement> = (event) => {
-    event.preventDefault()
+  const onClearInput = () => {
+    if (disabled) {
+      return
+    }
+
     setValue(contentKey, "")
   }
 
   return {
-    clearInput,
+onClearInput,
     contentKey,
     checkedKey,
   }

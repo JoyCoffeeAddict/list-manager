@@ -8,8 +8,14 @@ import { MainLayout } from "~/Layouts/mainLayout"
 const SignIn = () => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-      <span>Dive into List Manager</span>
-      <div className="flex items-center gap-3">
+      <h1 className="text-3xl">Dive into List Manager</h1>
+      <h2 className="mb-2 text-xl">
+        World&apos;s first application for sharable list.
+      </h2>
+      <h3 className="text-center text-lg">
+        Create Todo Lists, Shopping Lists, then easily share with others!
+      </h3>
+      <div className="mt-4 flex items-center gap-3">
         <LoginButton />
 
         <span>or</span>
