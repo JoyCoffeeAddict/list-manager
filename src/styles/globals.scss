@@ -35,7 +35,7 @@
 
   --error: var(--red-300);
 
-  --disabled: var(--slate-300);
+  --disabled: var(--slate-600);
 }
 
 [data-theme="lavender"] {
@@ -83,9 +83,10 @@
 }
 
 @mixin disabled {
-  pointer-events: none !important;
-  border-color: var(--disabled) !important;
-  color: var(--disabled) !important;
+  // pointer-events: none !important;
+  // border-color: var(--disabled) !important;
+  // color: var(--disabled) !important;
+  @apply pointer-events-none border-th-disabled text-th-disabled;
 }
 
 @layer utilities {

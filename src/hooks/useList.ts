@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast"
 
 export const listItemSchema = z.object({
   id: z.string().optional(),
-  content: z.string().min(1),
+  content: z.string().min(1, { message: "Content is required" }),
   checked: z.boolean(),
   authorId: z.string().min(1),
   listId: z.string().min(1),

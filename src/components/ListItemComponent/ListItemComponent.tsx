@@ -1,33 +1,39 @@
 import {
-  faCaretDown,
-  faCaretUp,
   faDeleteLeft,
-  faTrash,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from "classnames"
-import { useFormContext, type UseFieldArrayRemove } from "react-hook-form"
+import {
+  type UseFieldArrayReturn,
+  useFormContext
+} from "react-hook-form"
 import { type SingleListForm } from "~/hooks/useList"
+import { Logger } from "~/utils/logger"
+import { ButtonIcon } from "../Buttons/ButtonIcon"
 import { Checkbox } from "../Forms/Checkbox/Checkbox"
+import { SwapDirection, SwapOrder } from "../SwapOrder/SwapOrder"
 import { Position, Tooltip } from "../Tooltip/Tooltip"
 import { useListItem } from "./useListItem"
-import { ButtonIcon } from "../Buttons/ButtonIcon"
+
+interface ListItemComponentProps {
+  index: number
+  fieldArrayMethods: UseFieldArrayReturn<SingleListForm, "list", "formArrayId">
+  disabled: boolean
+  isLast: boolean
+}
 
 export const ListItemComponent = ({
   index,
-  remove,
   disabled,
   isLast,
-}: {
-  index: number
-  remove: UseFieldArrayRemove
-  disabled: boolean
-  isLast: boolean
-}) => {
+  fieldArrayMethods,
+}: ListItemComponentProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext<SingleListForm>()
+
+  const { remove, swap } = fieldArrayMethods
 
   const { onClearInput, contentKey, checkedKey } = useListItem({
     index,
@@ -44,26 +50,27 @@ export const ListItemComponent = ({
 
   const errorMessage = errors.list?.[index]?.content?.message
 
+  const handleSwap = (direction: SwapDirection) => {
+    if (direction === SwapDirection.Up && index !== 0) {
+      swap(index, index - 1)
+      return
+    }
+
+    if (direction === SwapDirection.Down && !isLast) {
+      swap(index, index + 1)
+      return
+    }
+
+    Logger.error("This swap should not occur")
+  }
   return (
     <li className="m-2 flex flex-col focus-visible:outline-transparent md:m-4">
-      {/* Swap order */}
       <div className="flex grow items-center">
-        <div className="flex flex-col pr-2">
-          <button
-            disabled={index === 0}
-            type="button"
-            className=" translate-y-1  text-2xl leading-none text-th-accent-medium hover:text-th-accent-medium md:text-inherit"
-          >
-            <FontAwesomeIcon icon={faCaretUp} />
-          </button>
-          <button
-            type="button"
-            className="-translate-y-1 text-2xl leading-none text-th-accent-medium hover:text-th-accent-medium md:text-inherit"
-            disabled={isLast}
-          >
-            <FontAwesomeIcon icon={faCaretDown} />
-          </button>
-        </div>
+          <SwapOrder
+            handleSwap={handleSwap}
+            isFirst={index === 0}
+            isLast={isLast}
+          />
         <span className={classNames({ disabled: disabled })}>{index + 1}.</span>
         <Checkbox formName={checkedKey} disabled={disabled} />
         <label aria-label={`item number ${index + 1}`} className="grow">

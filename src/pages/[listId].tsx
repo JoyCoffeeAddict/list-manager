@@ -61,7 +61,7 @@ const ListView: NextPage = () => {
               <ListItemComponent
                 key={formArrayId}
                 index={index}
-                remove={remove}
+                fieldArrayMethods={fieldArrayMethods}
                 disabled={isUpdateLoading}
                 isLast={index === fields.length - 1}
               />
