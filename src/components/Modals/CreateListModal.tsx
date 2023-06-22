@@ -6,6 +6,8 @@ import { Logger } from "~/utils/logger"
 import { newListSchema, type newListType } from "~/utils/schemas/listSchemas"
 import { ButtonPrimary } from "../Buttons/PrimaryButton"
 import { BasicModal } from "./BasicModal"
+import { Loader } from "../Loader/Loader"
+import { useErrorHelper } from "~/hooks/useErrorHelper"
 
 interface CreateListModalProps {
   isOpen: boolean
@@ -27,7 +29,10 @@ export const CreateListModal = ({
     defaultValues: { listName: "", sequence },
     resolver: zodResolver(newListSchema),
   })
-  const { mutate: createList } = api.lists.createList.useMutation()
+  const { mutate: createList, isLoading: isLoadingCreateList } =
+    api.lists.createList.useMutation()
+
+  const { genericErrorNotify } = useErrorHelper()
 
   const onSubmit = ({ listName }: newListType) => {
     createList(
@@ -36,6 +41,7 @@ export const CreateListModal = ({
         onSuccess: (newList) => {
           void router.push(`/${newList.id}`)
         },
+        onError: genericErrorNotify,
       }
     )
   }
@@ -45,6 +51,7 @@ export const CreateListModal = ({
   const onInvalidSubmit: SubmitErrorHandler<newListType> = (error) => {
     Logger.error(error)
   }
+
   return (
     <BasicModal>
       <div className="absolute inset-0 z-50 h-screen  w-screen ">
@@ -57,7 +64,11 @@ export const CreateListModal = ({
         <div className=" absolute left-1/2 top-1/2 z-20 grid h-80 w-full max-w-3xl -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-th-primary-light bg-th-background bg-th-background-gradient p-8 text-th-primary-medium shadow-2xl ">
           <div className="grid grid-rows-1 ">
             <h2 className="inline justify-self-center text-2xl">
-              How would you like to name your new list?
+              {isLoadingCreateList ? (
+                <span>Creating a list...</span>
+              ) : (
+                <span>How would you like to name your new list?</span>
+              )}
             </h2>
             <span
               onClick={handleClose}
@@ -72,21 +83,30 @@ export const CreateListModal = ({
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}
           >
-            <span className="flex w-full flex-col items-center">
-              <input
-                type="text"
-                className="m-2 w-3/4 border-2 border-th-accent-medium bg-transparent p-2"
-                {...register("listName")}
-              />
-              <div>{errors.listName?.message}</div>
-            </span>
+            {isLoadingCreateList ? (
+              <Loader />
+            ) : (
+              <>
+                <span className="flex w-full flex-col items-center">
+                  <input
+                    type="text"
+                    className="m-2 w-3/4 border-2 border-th-accent-medium bg-transparent p-2"
+                    {...register("listName")}
+                  />
+                  <div>{errors.listName?.message}</div>
+                </span>
 
-            <div className="flex gap-4 place-self-end">
-              <ButtonPrimary type="button" onClick={handleClose}>
-                Cancel
-              </ButtonPrimary>
-              <ButtonPrimary type="submit">Save</ButtonPrimary>
-            </div>
+                <div className="flex gap-4 place-self-end">
+                  <ButtonPrimary type="button" onClick={handleClose}>
+                    Cancel
+                  </ButtonPrimary>
+
+                  <ButtonPrimary type="submit" disabled={isLoadingCreateList}>
+                    Save
+                  </ButtonPrimary>
+                </div>
+              </>
+            )}
           </form>
         </div>
       </div>

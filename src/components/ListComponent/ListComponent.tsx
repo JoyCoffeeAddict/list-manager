@@ -8,13 +8,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Link from "next/link"
 import { useState } from "react"
-import { api } from "~/utils/api"
 import { RenameListModal } from "../Modals/RenameListModal"
 import { Position, Tooltip } from "../Tooltip/Tooltip"
 
-import { useListComponent } from "./useListComponent"
-import { ConfirmDialog } from "../Modals/ConfirmDialog"
 import { ButtonIcon } from "../Buttons/ButtonIcon"
+import { ConfirmDialog } from "../Modals/ConfirmDialog"
+import { useListComponent } from "./useListComponent"
 
 interface ListComponentProps {
   id: string
@@ -36,7 +35,6 @@ export const ListComponent = ({
     onAssignListToOrganization,
     onRemoveListFromOrganization,
   } = useListComponent({ id })
-  const ctx = api.useContext()
 
   return (
     <>
@@ -101,9 +99,10 @@ export const ListComponent = ({
       {isRenameListModalOpen ? (
         <RenameListModal
           isOpen={isRenameListModalOpen}
-          handleClose={() => {
-            void ctx.lists.getUserPrivateLists.invalidate()
+          handleClose={
+            () => {
             setIsRenameListModalOpen(false)
+            
           }}
           id={id}
         />

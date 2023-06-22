@@ -8,6 +8,8 @@ import {
 import { ButtonPrimary } from "../Buttons/PrimaryButton"
 import { useListComponent } from "../ListComponent/useListComponent"
 import { BasicModal } from "./BasicModal"
+import { api } from "~/utils/api"
+import { Loader } from "../Loader/Loader"
 
 interface RenameListModalProps {
   isOpen: boolean
@@ -23,18 +25,19 @@ export const RenameListModal = ({
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<renameListType>({
     defaultValues: { listName: "", id },
     resolver: zodResolver(renameListSchema),
   })
+  const ctx = api.useContext()
   const { onRenameList } = useListComponent({ id })
 
   const onSubmit = async ({ listName }: renameListType) => {
     await onRenameList({ listName })
+    await ctx.lists.getUserPrivateLists.invalidate()
     handleClose()
   }
-
   if (!isOpen) return null
 
   const onInvalidSubmit: SubmitErrorHandler<renameListType> = (error) => {
@@ -67,21 +70,27 @@ export const RenameListModal = ({
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}
           >
-            <span className="flex w-full flex-col items-center">
-              <input
-                type="text"
-                className="m-2 w-3/4 border-2 border-th-accent-medium bg-transparent p-2"
-                {...register("listName")}
-              />
-              <div>{errors.listName?.message}</div>
-            </span>
+            {isSubmitting ? (
+              <Loader />
+            ) : (
+              <>
+                <span className="flex w-full flex-col items-center">
+                  <input
+                    type="text"
+                    className="m-2 w-3/4 border-2 border-th-accent-medium bg-transparent p-2"
+                    {...register("listName")}
+                  />
+                  <div>{errors.listName?.message}</div>
+                </span>
 
-            <div className="flex gap-4 place-self-end">
-              <ButtonPrimary type="button" onClick={handleClose}>
-                Cancel
-              </ButtonPrimary>
-              <ButtonPrimary type="submit">Save</ButtonPrimary>
-            </div>
+                <div className="flex gap-4 place-self-end">
+                  <ButtonPrimary type="button" onClick={handleClose}>
+                    Cancel
+                  </ButtonPrimary>
+                  <ButtonPrimary type="submit">Save</ButtonPrimary>
+                </div>
+              </>
+            )}
           </form>
         </div>
       </div>

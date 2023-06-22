@@ -1,10 +1,12 @@
 import { useOrganization } from "@clerk/nextjs"
+import { useErrorHelper } from "~/hooks/useErrorHelper"
 import { api } from "~/utils/api"
 
 export const useListComponent = ({ id }: { id: string }) => {
   const ctx = api.useContext()
 
   const { mutate: deleteList } = api.lists.deleteList.useMutation()
+  const { genericErrorNotify } = useErrorHelper()
 
   const invalidateLists = () => {
     void ctx.lists.getCurrentUserOrganizationLists.invalidate()
@@ -30,6 +32,7 @@ export const useListComponent = ({ id }: { id: string }) => {
         onSuccess: () => {
           invalidateLists()
         },
+        onError: genericErrorNotify,
       }
     )
   }
