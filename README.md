@@ -1,20 +1,24 @@
-# Create T3 App
+# List manager
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a [list manger](https://list-manager-delta.vercel.app/) - app for creating lists of things
 
-## What's next? How do I make an app with this?
+## Create lists and share them with your organization 
+With this project you can make, organize and access lists from any device and share them with others using organization feature.
+Great for ToDo lists, shopping lists and much more! Also, check out different themes, they are dope!
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## License and contribution
+Tag me if you want to use this commercially.
+Open for any type of contribution! Open a GitHub issue or Pull Request, or DM me if you want some specific functionality, but you don't know how to make it.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
+## List of technologies
 - [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
+- [Clerk](https://clerk.com/)
 - [Prisma](https://prisma.io)
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
 
-## Learn More
+## powered by powerful [T3 Stack](https://create.t3.gg/)
+### Learn More About T3 Stack
 
 To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
 
@@ -23,6 +27,7 @@ To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the fo
 
 You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
 
-## How do I deploy this?
+If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join their [Discord](https://t3.gg/discord) and ask for help.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+### Disclaimer:
+This is a personal project made to learn full stack concepts like authorization, RPC, ORM, how to scale an application and CI & CD
