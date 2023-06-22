@@ -10,10 +10,25 @@ import {
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc"
 import { Logger } from "~/utils/logger"
 import { newListSchema, renameListSchema } from "~/utils/schemas/listSchemas"
+import { Ratelimit } from "@upstash/ratelimit" // for deno: see above
+import { Redis } from "@upstash/redis"
 
 interface SortableObject extends Record<string, unknown> {
   sequence: number
 }
+
+// Create a new ratelimiter, that allows 10 requests per 1 minute
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(10, "1 m"),
+  analytics: true,
+  /**
+   * Optional prefix for the keys used in redis. This is useful if you want to share a redis
+   * instance with other applications and want to avoid key collisions. The default prefix is
+   * "@upstash/ratelimit"
+   */
+  prefix: "@upstash/ratelimit",
+})
 
 const getListItemsById = async (
   input: { listId: string },
@@ -61,6 +76,9 @@ export const listsRouter = createTRPCRouter({
   createList: privateProcedure
     .input(newListSchema)
     .mutation(async ({ ctx, input }) => {
+      const { success } = await ratelimit.limit(ctx.userId)
+      if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" })
+
       return await ctx.prisma.list.create({
         data: { authorId: ctx.userId, ...input },
       })
@@ -80,7 +98,6 @@ export const listsRouter = createTRPCRouter({
     .input(z.object({ id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.$transaction([
-        // ctx.prisma.listItem.deleteMany({ where: { listId: input.id } }),
         ctx.prisma.list.delete({ where: { id: input.id } }),
       ])
     }),
@@ -104,20 +121,6 @@ export const listsRouter = createTRPCRouter({
           message: "Duplicate sequences or missing sequences on list items",
         })
       }
-
-      // const user = await ctx.prisma.userInorganization.findFirst({
-      //   where: { AND: [{ listId: input.id }, { userId: ctx.userId }] },
-      // })
-
-      // if (!user?.isEditor) {
-      //   throw new TRPCError({
-      //     code: "FORBIDDEN",
-      //     message:
-      //       "You don't have permissions to modify this list, contact your organization.",
-      //   })
-      // }
-
-      // console.log("🚀 ~ file: listsRouter.ts:121 ~ .mutation ~ user:", user)
 
       await ctx.prisma.$transaction(async () => {
         let previousListItems: ListItem[] = []
